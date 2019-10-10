@@ -1,0 +1,733 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<property name="sequenceTipoDocumento"
+		value="(select nextval ('gen_tipodocumento'))" />
+
+	<property name="sequenceTipoContato"
+		value="(select nextval ('gen_tipocontato'))" />
+
+	<property name="sequenceTipoUsuario"
+		value="(select nextval ('gen_tipousuario'))" />
+
+	<property name="sequenceTipoAvaliacao"
+		value="(select nextval ('gen_tipoavaliacao'))" />
+
+	<property name="sequencePais"
+		value="(select nextval ('gen_pais'))" />
+
+	<property name="sequenceEstado"
+		value="(select nextval ('gen_estado'))" />
+
+	<property name="sequenceCidade"
+		value="(select nextval ('gen_cidade'))" />
+
+	<changeSet id="criar_tb_tipousuario" author="eubusco-server">
+
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_tipousuario" />
+			</not>
+		</preConditions>
+
+		<createTable tableName="tb_tipousuario">
+
+			<column name="id_tipousuario" type="numeric(18,0)"
+				remarks="ID DO TIPO DE USUÁRIO">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_tipousuario" />
+			</column>
+
+			<column name="tx_descricao" type="varchar(255)"
+				remarks="DESCRIÇÃO DO TIPO DE USUÁRIO">
+			</column>
+
+		</createTable>
+
+		<createSequence sequenceName="gen_tipousuario"
+			startValue="1" />
+
+	</changeSet>
+
+	<changeSet id="criar_tb_usuario" author="eubusco-server">
+
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_usuario" />
+			</not>
+		</preConditions>
+
+		<createTable tableName="tb_usuario">
+
+			<column name="id_usuario" type="numeric(18,0)"
+				remarks="ID DO USUÁRIO">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_usuario" />
+			</column>
+
+			<column name="cd_tipousuario" type="numeric(18,0)"
+				remarks="CÓDIGO DO TIPO DE USUÁRIO">
+				<constraints nullable="false"
+					foreignKeyName="fk_tb_usuario_tb_tipousuario"
+					references="tb_tipousuario(id_tipousuario)" />
+			</column>
+
+			<column name="tx_nome" type="varchar(255)"
+				remarks="NOME DO USUÁRIO">
+			</column>
+
+			<column name="tx_login" type="varchar(255)"
+				remarks="LOGIN DO USUÁRIO">
+			</column>
+
+			<column name="tx_senha" type="varchar(255)"
+				remarks="SENHA DO USUÁRIO">
+			</column>
+
+			<column name="tx_foto" type="varchar(500)"
+				remarks="URL DA FOTO DO USUÁRIO">
+			</column>
+
+			<column name="dt_nascimento" type="date"
+				remarks="DATA DE NASCIMENTO DO USUÁRIO">
+			</column>
+
+			<column name="dt_cadastro" type="date"
+				remarks="DATA DE CADASTRO DO USUÁRIO">
+			</column>
+
+			<column name="dt_manutencao" type="date"
+				remarks="DATA DA ULTIMA MANUTENÇÃO NO USUÁRIO">
+			</column>
+
+			<column name="dt_exclusao" type="date"
+				remarks="DATA DE EXCLUSÃO NO USUÁRIO">
+			</column>
+
+		</createTable>
+
+		<createSequence sequenceName="gen_usuario"
+			startValue="1" />
+
+	</changeSet>
+
+	<changeSet id="criar_tb_pais" author="eubusco-server">
+
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_pais" />
+			</not>
+		</preConditions>
+
+		<createTable tableName="tb_pais">
+
+			<column name="id_pais" type="numeric(18,0)"
+				remarks="ID DO PAIS">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_pais" />
+			</column>
+
+			<column name="tx_sigla" type="varchar(2)"
+				remarks="SIGLA DO PAIS">
+			</column>
+
+			<column name="tx_descricao" type="varchar(255)"
+				remarks="NOME DO PAIS">
+			</column>
+
+		</createTable>
+
+		<createSequence sequenceName="gen_pais" startValue="1" />
+
+	</changeSet>
+
+	<changeSet id="criar_tb_estado" author="eubusco-server">
+
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_estado" />
+			</not>
+		</preConditions>
+
+		<createTable tableName="tb_estado">
+
+			<column name="id_estado" type="numeric(18,0)"
+				remarks="ID DO ESTADO">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_estado" />
+			</column>
+
+			<column name="cd_pais" type="numeric(18,0)"
+				remarks="CÓDIGO DO PAIS">
+				<constraints nullable="false"
+					foreignKeyName="fk_tb_estado_tb_pais" references="tb_pais(id_pais)" />
+			</column>
+
+			<column name="tx_sigla" type="varchar(2)"
+				remarks="SIGLA DO ESTADO">
+			</column>
+
+			<column name="tx_descricao" type="varchar(255)"
+				remarks="NOME DO ESTADO">
+			</column>
+
+		</createTable>
+
+		<createSequence sequenceName="gen_estado"
+			startValue="1" />
+
+	</changeSet>
+
+	<changeSet id="criar_tb_cidade" author="eubusco-server">
+
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_cidade" />
+			</not>
+		</preConditions>
+
+		<createTable tableName="tb_cidade">
+
+			<column name="id_cidade" type="numeric(18,0)"
+				remarks="ID DA CIDADE">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_cidade" />
+			</column>
+
+			<column name="cd_estado" type="numeric(18,0)"
+				remarks="CÓDIGO DO ESTADO">
+				<constraints nullable="false"
+					foreignKeyName="fk_tb_cidade_tb_estado"
+					references="tb_estado(id_estado)" />
+			</column>
+
+			<column name="nr_cep" type="numeric(18,0)"
+				remarks="CEP DA CIDADE">
+			</column>
+
+			<column name="tx_sigla" type="varchar(3)"
+				remarks="SIGLA DA CIDADE">
+			</column>
+
+			<column name="tx_descricao" type="varchar(255)"
+				remarks="NOME DA CIDADE">
+			</column>
+
+		</createTable>
+
+		<createSequence sequenceName="gen_cidade"
+			startValue="1" />
+
+	</changeSet>
+
+	<changeSet id="criar_tb_endereco" author="eubusco-server">
+
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_endereco" />
+			</not>
+		</preConditions>
+
+		<createTable tableName="tb_endereco">
+
+			<column name="id_endereco" type="numeric(18,0)"
+				remarks="ID DO ENDEREÇO">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_endereco" />
+			</column>
+
+			<column name="cd_cidade" type="numeric(18,0)"
+				remarks="CÓDIGO DA CIDADE">
+				<constraints nullable="false"
+					foreignKeyName="fk_tb_endereco_tb_cidade"
+					references="tb_cidade(id_cidade)" />
+			</column>
+
+			<column name="cd_usuario" type="numeric(18,0)"
+				remarks="CÓDIGO DO USUÁRIO">
+				<constraints nullable="false"
+					foreignKeyName="fk_tb_endereco_tb_usuario"
+					references="tb_usuario(id_usuario)" />
+			</column>
+
+			<column name="tx_endereco" type="varchar(255)"
+				remarks="DESCRIÇÃO DO ENDEREÇO">
+				<constraints nullable="false" />
+			</column>
+
+			<column name="tx_titulo" type="varchar(255)"
+				remarks="TÍTULO DO ENDEREÇO">
+				<constraints nullable="false" />
+			</column>
+
+			<column name="tx_complemento" type="varchar(255)"
+				remarks="COMPLEMENTO DO ENDEREÇO">
+				<constraints nullable="false" />
+			</column>
+
+			<column name="nr_numero" type="numeric(18,0)"
+				remarks="NÚMERO DO ENDEREÇO">
+				<constraints nullable="false" />
+			</column>
+
+			<column name="tx_bairro" type="varchar(255)"
+				remarks="BAIRRO DO ENDEREÇO">
+				<constraints nullable="false" />
+			</column>
+
+		</createTable>
+
+		<createSequence sequenceName="gen_endereco"
+			startValue="1" />
+
+	</changeSet>
+
+	<changeSet id="criar_tb_tipodocumento"
+		author="eubusco-server">
+
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_tipodocumento" />
+			</not>
+		</preConditions>
+
+		<createTable tableName="tb_tipodocumento">
+
+			<column name="id_tipodocumento" type="numeric(18,0)"
+				remarks="ID DO TIPO DE DOCUMENTO">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_tipodocumento" />
+			</column>
+
+			<column name="tx_descricao" type="varchar(255)"
+				remarks="DESCRIÇÃO DO TIPO DE DOCUMENTO">
+			</column>
+
+		</createTable>
+
+		<createSequence sequenceName="gen_tipodocumento"
+			startValue="1" />
+
+	</changeSet>
+
+	<changeSet id="criar_tb_documento" author="eubusco-server">
+
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_documento" />
+			</not>
+		</preConditions>
+
+		<createTable tableName="tb_documento">
+
+			<column name="id_documento" type="numeric(18,0)"
+				remarks="ID DO DOCUMENTO">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_documento" />
+			</column>
+
+			<column name="cd_tipodocumento" type="numeric(18,0)"
+				remarks="CODIGO DO TIPO DO DOCUMENTO">
+				<constraints nullable="false"
+					foreignKeyName="fk_tb_documento_tb_tipodocumento"
+					references="tb_tipodocumento(id_tipodocumento)" />
+			</column>
+
+			<column name="cd_usuario" type="numeric(18,0)"
+				remarks="CÓDIGO DO USUÁRIO">
+				<constraints nullable="false"
+					foreignKeyName="fk_tb_documento_tb_usuario"
+					references="tb_usuario(id_usuario)" />
+			</column>
+
+			<column name="nr_documento" type="numeric(18,0)"
+				remarks="NÚMERO DO DOCUMENTO">
+				<constraints nullable="false" />
+			</column>
+
+		</createTable>
+
+		<createSequence sequenceName="gen_documento"
+			startValue="1" />
+
+	</changeSet>
+
+	<changeSet id="criar_tb_tipocontato" author="eubusco-server">
+
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_tipocontato" />
+			</not>
+		</preConditions>
+
+		<createTable tableName="tb_tipocontato">
+
+			<column name="id_tipocontato" type="numeric(18,0)"
+				remarks="ID DO TIPO DE CONTATO">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_tipocontato" />
+			</column>
+
+			<column name="tx_descricao" type="varchar(255)"
+				remarks="DESCRIÇÃO DO TIPO DE CONTATO">
+				<constraints nullable="false" />
+			</column>
+
+		</createTable>
+
+		<createSequence sequenceName="gen_tipocontato"
+			startValue="1" />
+
+	</changeSet>
+
+	<changeSet id="criar_tb_contato" author="eubusco-server">
+
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_contato" />
+			</not>
+		</preConditions>
+
+		<createTable tableName="tb_contato">
+
+			<column name="id_contato" type="numeric(18,0)"
+				remarks="ID DO TIPO DE CONTATO">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_contato" />
+			</column>
+
+			<column name="cd_tipocontato" type="numeric(18,0)"
+				remarks="CODIGO DO TIPO DO CONTATO">
+				<constraints nullable="false"
+					foreignKeyName="fk_tb_contato_tb_tipocontato"
+					references="tb_tipocontato(id_tipocontato)" />
+			</column>
+
+			<column name="cd_usuario" type="numeric(18,0)"
+				remarks="CÓDIGO DO USUÁRIO">
+				<constraints nullable="false"
+					foreignKeyName="fk_tb_contato_tb_usuario"
+					references="tb_usuario(id_usuario)" />
+			</column>
+
+			<column name="tx_descricao" type="varchar(255)"
+				remarks="DESCRIÇÃO DO CONTATO">
+				<constraints nullable="false" />
+			</column>
+
+		</createTable>
+
+		<createSequence sequenceName="gen_contato"
+			startValue="1" />
+
+	</changeSet>
+
+	<changeSet id="criar_tb_entrega" author="eubusco-server">
+
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_entrega" />
+			</not>
+		</preConditions>
+
+		<createTable tableName="tb_entrega">
+
+			<column name="id_entrega" type="numeric(18,0)"
+				remarks="ID DA ENTREGA">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_entrega" />
+			</column>
+
+			<column name="cd_cliente" type="numeric(18,0)"
+				remarks="CÓDIGO DO CLIENTE">
+				<constraints nullable="false"
+					foreignKeyName="fk_tb_entrega_tb_usuario_cliente"
+					references="tb_usuario(id_usuario)" />
+			</column>
+
+			<column name="cd_entregador" type="numeric(18,0)"
+				remarks="CÓDIGO DO ENTREGADOR">
+				<constraints
+					foreignKeyName="fk_tb_entrega_tb_usuario_entregador"
+					references="tb_usuario(id_usuario)" />
+			</column>
+
+			<column name="cd_enderecocoleta" type="numeric(18,0)"
+				remarks="CÓDIGO DO ENDEREÇO DE COLETA">
+				<constraints nullable="false"
+					foreignKeyName="fk_tb_entrega_tb_endereco_coleta"
+					references="tb_endereco(id_endereco)" />
+			</column>
+
+			<column name="cd_enderecoentrega" type="numeric(18,0)"
+				remarks="CÓDIGO DO ENDEREÇO DE ENTREGA">
+				<constraints nullable="false"
+					foreignKeyName="fk_tb_entrega_tb_endereco_entrega"
+					references="tb_endereco(id_endereco)" />
+			</column>
+
+			<column name="tx_titulo" type="varchar(255)"
+				remarks="TITULO DA ENTREGA">
+				<constraints nullable="false" />
+			</column>
+
+			<column name="tx_descricao" type="varchar(255)"
+				remarks="DESCRIÇÃO DA ENTREGA">
+				<constraints nullable="false" />
+			</column>
+
+			<column name="tx_foto" type="varchar(500)"
+				remarks="URL DA FOTO DA ENTREGA">
+			</column>
+			
+			<column name="fl_finalizada" type="BOOLEAN"
+				remarks="FLAG QUE VERIFICA SE A ENTREGA FOI FINALIZADA">
+			</column>
+
+			<column name="dt_coleta" type="timestamp"
+				remarks="DATA DE COLETA">
+				<constraints nullable="false" />
+			</column>
+
+			<column name="dt_prazoentrega" type="timestamp"
+				remarks="DATA PRAZO PARA ENTREGA">
+				<constraints nullable="false" />
+			</column>
+
+			<column name="dt_cadastro" type="date"
+				remarks="DATA DE CADASTRO">
+				<constraints nullable="false" />
+			</column>
+
+			<column name="dt_manutencao" type="date"
+				remarks="DATA DA ULTIMA MANUTENÇÃO">
+				<constraints nullable="false" />
+			</column>
+
+			<column name="dt_exclusao" type="date"
+				remarks="DATA DE EXCLUSÃO">
+			</column>
+
+		</createTable>
+
+		<createSequence sequenceName="gen_entrega"
+			startValue="1" />
+
+	</changeSet>
+
+	<changeSet id="criar_tb_tipoavaliacao"
+		author="eubusco-server">
+
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_tipoavaliacao" />
+			</not>
+		</preConditions>
+
+		<createTable tableName="tb_tipoavaliacao">
+
+			<column name="id_tipoavaliacao" type="numeric(18,0)"
+				remarks="ID DO TIPO DE AVALIACAO">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_tipoavaliacao" />
+			</column>
+
+			<column name="tx_descricao" type="varchar(1200)"
+				remarks="DESCRIÇÃO DA AVALIAÇÃO">
+				<constraints nullable="false" />
+			</column>
+
+		</createTable>
+
+		<createSequence sequenceName="gen_tipoavaliacao"
+			startValue="1" />
+
+	</changeSet>
+
+	<changeSet id="criar_tb_avaliacao" author="eubusco-server">
+
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists tableName="tb_avaliacao" />
+			</not>
+		</preConditions>
+
+		<createTable tableName="tb_avaliacao">
+
+			<column name="id_avaliacao" type="numeric(18,0)"
+				remarks="ID DA AVALIACAO">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_avaliacao" />
+			</column>
+
+			<column name="cd_entregador" type="numeric(18,0)"
+				remarks="CÓDIGO DO ENTREGADOR">
+				<constraints nullable="false"
+					foreignKeyName="fk_tb_avaliacao_tb_usuario_entregador"
+					references="tb_usuario(id_usuario)" />
+			</column>
+
+			<column name="cd_cliente" type="numeric(18,0)"
+				remarks="CÓDIGO DO CLIENTE">
+				<constraints nullable="false"
+					foreignKeyName="fk_tb_avaliacao_tb_usuario_cliente"
+					references="tb_usuario(id_usuario)" />
+			</column>
+
+			<column name="cd_entrega" type="numeric(18,0)"
+				remarks="CÓDIGO DA ENTREGA">
+				<constraints nullable="false"
+					foreignKeyName="fk_tb_avaliacao_tb_entrega"
+					references="tb_entrega(id_entrega)" />
+			</column>
+
+			<column name="cd_tipoavaliacao" type="numeric(18,0)"
+				remarks="CÓDIGO DO TIPO DE AVALIAÇÃO">
+				<constraints nullable="false"
+					foreignKeyName="fk_tb_entrega_tb_tipoavaliacao"
+					references="tb_tipoavaliacao(id_tipoavaliacao)" />
+			</column>
+
+			<column name="tx_descricao" type="varchar(1200)"
+				remarks="DESCRIÇÃO DA AVALIAÇÃO">
+				<constraints nullable="false" />
+			</column>
+
+			<column name="nr_nota" type="numeric(1,0)"
+				remarks="NOTA DA AVALIAÇÃO">
+				<constraints nullable="false" />
+			</column>
+
+		</createTable>
+
+		<createSequence sequenceName="gen_avaliacao"
+			startValue="1" />
+
+	</changeSet>
+
+	<changeSet id="carga_tb_tipodocumento"
+		author="eubusco-server">
+
+		<insert tableName="tb_tipodocumento">
+			<column name="id_tipodocumento"
+				valueComputed="${sequenceTipoDocumento}" />
+			<column name="tx_descricao" value="CPF" />
+		</insert>
+
+		<insert tableName="tb_tipodocumento">
+			<column name="id_tipodocumento"
+				valueComputed="${sequenceTipoDocumento}" />
+			<column name="tx_descricao" value="CNPJ" />
+		</insert>
+
+		<insert tableName="tb_tipodocumento">
+			<column name="id_tipodocumento"
+				valueComputed="${sequenceTipoDocumento}" />
+			<column name="tx_descricao" value="RG" />
+		</insert>
+
+		<insert tableName="tb_tipodocumento">
+			<column name="id_tipodocumento"
+				valueComputed="${sequenceTipoDocumento}" />
+			<column name="tx_descricao" value="CNH" />
+		</insert>
+
+	</changeSet>
+
+	<changeSet id="carga_tb_tipocontato" author="eubusco-server">
+
+		<insert tableName="tb_tipocontato">
+			<column name="id_tipocontato"
+				valueComputed="${sequenceTipoContato}" />
+			<column name="tx_descricao" value="TELEFONE" />
+		</insert>
+
+		<insert tableName="tb_tipocontato">
+			<column name="id_tipocontato"
+				valueComputed="${sequenceTipoContato}" />
+			<column name="tx_descricao" value="E-MAIL" />
+		</insert>
+
+		<insert tableName="tb_tipocontato">
+			<column name="id_tipocontato"
+				valueComputed="${sequenceTipoContato}" />
+			<column name="tx_descricao" value="CELULAR" />
+		</insert>
+
+	</changeSet>
+
+	<changeSet id="carga_tb_tipousuario" author="eubusco-server">
+
+		<insert tableName="tb_tipousuario">
+			<column name="id_tipousuario"
+				valueComputed="${sequenceTipoUsuario}" />
+			<column name="tx_descricao" value="ADMIN" />
+		</insert>
+
+		<insert tableName="tb_tipousuario">
+			<column name="id_tipousuario"
+				valueComputed="${sequenceTipoUsuario}" />
+			<column name="tx_descricao" value="CLIENTE" />
+		</insert>
+
+		<insert tableName="tb_tipousuario">
+			<column name="id_tipousuario"
+				valueComputed="${sequenceTipoUsuario}" />
+			<column name="tx_descricao" value="ENTREGADOR" />
+		</insert>
+
+	</changeSet>
+
+	<changeSet id="carga_tb_tipoavaliacao"
+		author="eubusco-server">
+
+		<insert tableName="tb_tipoavaliacao">
+			<column name="id_tipoavaliacao"
+				valueComputed="${sequenceTipoAvaliacao}" />
+			<column name="tx_descricao" value="CLIENTE" />
+		</insert>
+
+		<insert tableName="tb_tipoavaliacao">
+			<column name="id_tipoavaliacao"
+				valueComputed="${sequenceTipoAvaliacao}" />
+			<column name="tx_descricao" value="ENTREGADOR" />
+		</insert>
+
+		<insert tableName="tb_tipoavaliacao">
+			<column name="id_tipoavaliacao"
+				valueComputed="${sequenceTipoAvaliacao}" />
+			<column name="tx_descricao" value="ADMIN" />
+		</insert>
+
+	</changeSet>
+
+	<changeSet id="carga_endereco" author="eubusco-server">
+
+		<insert tableName="tb_pais">
+			<column name="id_pais" valueComputed="${sequencePais}" />
+			<column name="tx_sigla" value="BR" />
+			<column name="tx_descricao" value="BRASIL" />
+		</insert>
+
+		<insert tableName="tb_estado">
+			<column name="id_estado" valueComputed="${sequenceEstado}" />
+			<column name="cd_pais" value="1" />
+			<column name="tx_sigla" value="SC" />
+			<column name="tx_descricao" value="SANTA CATARINA" />
+		</insert>
+
+		<insert tableName="tb_cidade">
+			<column name="id_cidade" valueComputed="${sequenceCidade}" />
+			<column name="cd_estado" value="1" />
+			<column name="tx_sigla" value="SMO" />
+			<column name="tx_descricao" value="SÃO MIGUEL DO OESTE" />
+		</insert>
+
+	</changeSet>
+
+</databaseChangeLog>

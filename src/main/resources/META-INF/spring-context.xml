@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+                http://www.springframework.org/schema/security/spring-security-4.0.xsd
+                    http://www.springframework.org/schema/security 
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+	<!-- gerenciamento de jpa pelo spring -->
+	<!-- <beans:bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"> 
+		<beans:property name="dataSource" ref="postegresDataSource" /> <beans:property 
+		name="jpaVendorAdapter"> <beans:bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" 
+		/> </beans:property> </beans:bean> -->
+
+	<!-- gerenciamento da transação pelo spring -->
+	<!-- <beans:bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"> 
+		<beans:property name="entityManagerFactory" ref="entityManagerFactory" /> 
+		</beans:bean> -->
+
+	<beans:bean id="liquibase"
+		class="liquibase.integration.spring.SpringLiquibase">
+		<beans:property name="dataSource" ref="liquibase" />
+		<beans:property name="changeLog" value="classpath:db/changelog-master.xml" />
+
+		<!-- contexts specifies the runtime contexts to use. -->
+		<beans:property name="contexts" value="test, production" />
+	</beans:bean>
+
+	<context:component-scan base-package="br.net.fireup.medial" />
+
+	
+</beans:beans>
