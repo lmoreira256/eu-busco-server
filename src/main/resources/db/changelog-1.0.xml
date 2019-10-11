@@ -27,6 +27,9 @@
 	<property name="sequenceCidade"
 		value="(select nextval ('gen_cidade'))" />
 
+	<property name="sequenceUsuario"
+		value="(select nextval ('gen_usuario'))" />
+
 	<changeSet id="criar_tb_tipousuario" author="eubusco-server">
 
 		<preConditions onFail="CONTINUE">
@@ -484,7 +487,7 @@
 			<column name="tx_foto" type="varchar(500)"
 				remarks="URL DA FOTO DA ENTREGA">
 			</column>
-			
+
 			<column name="fl_finalizada" type="BOOLEAN"
 				remarks="FLAG QUE VERIFICA SE A ENTREGA FOI FINALIZADA">
 			</column>
@@ -726,6 +729,19 @@
 			<column name="cd_estado" value="1" />
 			<column name="tx_sigla" value="SMO" />
 			<column name="tx_descricao" value="SÃO MIGUEL DO OESTE" />
+		</insert>
+
+	</changeSet>
+
+	<changeSet id="carga_usuario" author="eubusco-server">
+
+		<insert tableName="tb_usuario">
+			<column name="id_usuario" valueComputed="${sequenceUsuario}" />
+			<column name="cd_tipousuario" value="1" />
+			<column name="tx_nome" value="ADMINISTRADOR" />
+			<column name="tx_login" value="admin" />
+			<column name="tx_senha"
+				value="e10adc3949ba59abbe56e057f20f883e" />
 		</insert>
 
 	</changeSet>
