@@ -18,9 +18,11 @@ public interface UsuarioService {
 	@RequestMapping(path = "realizarLogin", method = RequestMethod.POST, produces = "application/json")
 	public abstract RetornoLoginDTO realizarLogin(LoginDTO loginDTO);
 
+	@CrossOrigin
 	@RequestMapping(path = "novoUsuario", method = RequestMethod.POST, produces = "application/json")
 	public abstract Integer novoUsuario(NovoUsuarioDTO novoUsuarioDTO);
 
+	@CrossOrigin
 	@RequestMapping(path = "buscarDadosUsuario", method = RequestMethod.GET, produces = "application/json")
 	public abstract DadosUsuarioDTO buscarDadosUsuario(Integer idUsuario);
 
