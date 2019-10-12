@@ -95,9 +95,17 @@ public class UsuarioBOImpl implements UsuarioBO {
 
 		usuario = usuarioDAO.salvar(novoUsuario);
 
-		this.salvarDocumentosUsuario(usuario.getId(), novoUsuarioDTO.getDocumentosUsuario());
-		this.salvarEnderecosUsuario(usuario.getId(), novoUsuarioDTO.getEnderecosUsuario());
-		this.salvarContatosUsuario(usuario.getId(), novoUsuarioDTO.getContatosUsuario());
+		if (novoUsuarioDTO.getDocumentosUsuario() != null) {
+			this.salvarDocumentosUsuario(usuario.getId(), novoUsuarioDTO.getDocumentosUsuario());
+		}
+
+		if (novoUsuarioDTO.getEnderecosUsuario() != null) {
+			this.salvarEnderecosUsuario(usuario.getId(), novoUsuarioDTO.getEnderecosUsuario());
+		}
+
+		if (novoUsuarioDTO.getContatosUsuario() != null) {
+			this.salvarContatosUsuario(usuario.getId(), novoUsuarioDTO.getContatosUsuario());
+		}
 
 		return usuario.getId();
 	}
