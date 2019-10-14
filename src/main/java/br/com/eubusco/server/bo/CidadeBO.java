@@ -8,4 +8,6 @@ public interface CidadeBO {
 
 	public abstract List<Cidade> adquirirTodos();
 
+	public abstract Boolean salvar(Cidade cidade);
+
 }

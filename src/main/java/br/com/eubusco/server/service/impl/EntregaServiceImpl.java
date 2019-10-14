@@ -1,5 +1,7 @@
 package br.com.eubusco.server.service.impl;
 
+import java.util.List;
+
 import javax.annotation.ManagedBean;
 import javax.validation.Valid;
 
@@ -25,6 +27,13 @@ public class EntregaServiceImpl implements EntregaService {
 		logger.info("==> Executando o método salvar.");
 
 		return entregaBO.salvar(entrega);
+	}
+
+	@Override
+	public List<Entrega> buscarAbertasCliente(Integer idUsuario) {
+		logger.info("==> Executando o método buscarAbertasCliente.");
+
+		return entregaBO.buscarAbertasCliente(idUsuario);
 	}
 
 }

@@ -7,18 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.eubusco.server.model.Cidade;
+import br.com.eubusco.server.model.Estado;
 
 @RestController
-@RequestMapping("cidadeService")
-public interface CidadeService {
+@RequestMapping("estadoService")
+public interface EstadoService {
 
 	@CrossOrigin
 	@RequestMapping(path = "adquirirTodos", method = RequestMethod.GET, produces = "application/json")
-	public abstract List<Cidade> adquirirTodos();
-
-	@CrossOrigin
-	@RequestMapping(path = "salvar", method = RequestMethod.POST, produces = "application/json")
-	public abstract Boolean salvar(Cidade cidade);
+	public abstract List<Estado> adquirirTodos();
 
 }

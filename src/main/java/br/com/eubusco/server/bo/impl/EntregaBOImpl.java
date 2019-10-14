@@ -1,6 +1,7 @@
 package br.com.eubusco.server.bo.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.ManagedBean;
 
@@ -30,12 +31,24 @@ public class EntregaBOImpl implements EntregaBO {
 			throw Resource.getServerException(MensagemService.PARAMETRO_NULO);
 		}
 
+		entrega.setFlagFinalizada(false);
 		entrega.setDataCadastro(new Date());
 		entrega.setDataManutencao(new Date());
 
 		Entrega retorno = entregaDAO.salvar(entrega);
 
 		return retorno != null;
+	}
+
+	@Override
+	public List<Entrega> buscarAbertasCliente(Integer idUsuario) {
+		logger.info("==> Executando o método buscarAbertasCliente.");
+
+		if (idUsuario == null) {
+			throw Resource.getServerException(MensagemService.PARAMETRO_NULO);
+		}
+
+		return entregaDAO.buscarAbertasCliente(idUsuario);
 	}
 
 }

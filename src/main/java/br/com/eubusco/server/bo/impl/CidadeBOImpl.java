@@ -9,8 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.eubusco.server.bo.CidadeBO;
+import br.com.eubusco.server.constantes.MensagemService;
 import br.com.eubusco.server.dao.CidadeDAO;
 import br.com.eubusco.server.model.Cidade;
+import br.com.eubusco.server.resources.Resource;
 
 @ManagedBean
 public class CidadeBOImpl implements CidadeBO {
@@ -25,6 +27,19 @@ public class CidadeBOImpl implements CidadeBO {
 		logger.info("==> Executando o método adquirirTodos.");
 
 		return cidadeDAO.buscarTodos();
+	}
+
+	@Override
+	public Boolean salvar(Cidade cidade) {
+		logger.info("==> Executando o método salvar.");
+
+		if (cidade == null) {
+			throw Resource.getServerException(MensagemService.PARAMETRO_NULO);
+		}
+
+		Cidade retorno = cidadeDAO.salvar(cidade);
+
+		return retorno != null;
 	}
 
 }

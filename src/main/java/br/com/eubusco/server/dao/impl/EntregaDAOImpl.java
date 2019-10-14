@@ -1,6 +1,9 @@
 package br.com.eubusco.server.dao.impl;
 
 import static br.com.eubusco.server.model.QEntrega.entrega;
+
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,15 +26,20 @@ public class EntregaDAOImpl extends GenericDAOImpl<Entrega> implements EntregaDA
 	}
 
 	@Override
-	public Long adquirirEntragasAbertasUsuario(Integer codigoUsuario) {
-		return from().where(entrega.flagFinalizada.eq(Boolean.FALSE).and(entrega.codigoCliente.eq(codigoUsuario))
-				.or(entrega.codigoEntregador.eq(codigoUsuario))).count();
+	public Long adquirirEntragasAbertasUsuario(Integer idUsuario) {
+		return from().where(entrega.flagFinalizada.eq(Boolean.FALSE).and(entrega.codigoCliente.eq(idUsuario))
+				.or(entrega.codigoEntregador.eq(idUsuario))).count();
 	}
 
 	@Override
-	public Long adquirirTotalEntragasUsuario(Integer codigoUsuario) {
-		return from().where(entrega.codigoCliente.eq(codigoUsuario).or(entrega.codigoEntregador.eq(codigoUsuario)))
-				.count();
+	public Long adquirirTotalEntragasUsuario(Integer idUsuario) {
+		return from().where(entrega.codigoCliente.eq(idUsuario).or(entrega.codigoEntregador.eq(idUsuario))).count();
+	}
+
+	@Override
+	public List<Entrega> buscarAbertasCliente(Integer idUsuario) {
+		return from().where(entrega.flagFinalizada.eq(Boolean.FALSE).and(entrega.codigoCliente.eq(idUsuario)))
+				.list(entrega);
 	}
 
 }
