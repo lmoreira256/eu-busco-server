@@ -42,4 +42,10 @@ public class EntregaDAOImpl extends GenericDAOImpl<Entrega> implements EntregaDA
 				.list(entrega);
 	}
 
+	@Override
+	public List<Entrega> buscarAbertasEntregador(Integer idUsuario) {
+		return from().where(entrega.flagFinalizada.eq(Boolean.FALSE).and(entrega.codigoEntregador.eq(idUsuario)))
+				.list(entrega);
+	}
+
 }

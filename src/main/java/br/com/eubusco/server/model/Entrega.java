@@ -60,12 +60,16 @@ public class Entrega implements Serializable {
 	@Column(name = "dt_exclusao")
 	private Date dataExclusao;
 
+	@Column(name = "tx_volume")
+	private String volume;
+
 	public Entrega() {
 	}
 
 	public Entrega(Integer codigoCliente, Integer codigoEntregador, Integer codigoEnderecoColeta,
 			Integer codigoEnderecoEntrega, String titulo, String descricao, String foto, Boolean flagFinalizada,
-			Date dataColeta, Date dataPrazoEntrega, Date dataCadastro, Date dataManutencao, Date dataExclusao) {
+			Date dataColeta, Date dataPrazoEntrega, Date dataCadastro, Date dataManutencao, Date dataExclusao,
+			String volume) {
 		super();
 		this.codigoCliente = codigoCliente;
 		this.codigoEntregador = codigoEntregador;
@@ -80,6 +84,7 @@ public class Entrega implements Serializable {
 		this.dataCadastro = dataCadastro;
 		this.dataManutencao = dataManutencao;
 		this.dataExclusao = dataExclusao;
+		this.volume = volume;
 	}
 
 	public Integer getId() {
@@ -192,6 +197,14 @@ public class Entrega implements Serializable {
 
 	public void setDataExclusao(Date dataExclusao) {
 		this.dataExclusao = dataExclusao;
+	}
+
+	public String getVolume() {
+		return volume;
+	}
+
+	public void setVolume(String volume) {
+		this.volume = volume;
 	}
 
 }

@@ -746,4 +746,13 @@
 
 	</changeSet>
 
+	<changeSet id="alter_tb_entrega_volume"
+		author="eubusco-server">
+
+		<addColumn schemaName="public" tableName="tb_entrega">
+			<column name="tx_volume" type="varchar(255)" />
+		</addColumn>
+
+	</changeSet>
+
 </databaseChangeLog>

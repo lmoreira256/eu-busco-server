@@ -51,4 +51,15 @@ public class EntregaBOImpl implements EntregaBO {
 		return entregaDAO.buscarAbertasCliente(idUsuario);
 	}
 
+	@Override
+	public List<Entrega> buscarAbertasEntregador(Integer idUsuario) {
+		logger.info("==> Executando o método buscarAbertasEntregador.");
+
+		if (idUsuario == null) {
+			throw Resource.getServerException(MensagemService.PARAMETRO_NULO);
+		}
+
+		return entregaDAO.buscarAbertasEntregador(idUsuario);
+	}
+
 }

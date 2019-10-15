@@ -21,4 +21,8 @@ public interface EntregaService {
 	@RequestMapping(path = "buscarAbertasCliente", method = RequestMethod.GET, produces = "application/json")
 	public abstract List<Entrega> buscarAbertasCliente(Integer idUsuario);
 
+	@CrossOrigin
+	@RequestMapping(path = "buscarAbertasEntregador", method = RequestMethod.GET, produces = "application/json")
+	public abstract List<Entrega> buscarAbertasEntregador(Integer idUsuario);
+
 }

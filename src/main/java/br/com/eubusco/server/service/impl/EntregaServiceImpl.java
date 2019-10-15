@@ -36,4 +36,11 @@ public class EntregaServiceImpl implements EntregaService {
 		return entregaBO.buscarAbertasCliente(idUsuario);
 	}
 
+	@Override
+	public List<Entrega> buscarAbertasEntregador(Integer idUsuario) {
+		logger.info("==> Executando o método buscarAbertasEntregador.");
+
+		return entregaBO.buscarAbertasEntregador(idUsuario);
+	}
+
 }

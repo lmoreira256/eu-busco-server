@@ -1,12 +1,16 @@
 package br.com.eubusco.server.model;
 
-import static com.mysema.query.types.PathMetadataFactory.*;
+import static com.mysema.query.types.PathMetadataFactory.forVariable;
 
-import com.mysema.query.types.path.*;
-
-import com.mysema.query.types.PathMetadata;
 import javax.annotation.Generated;
+
 import com.mysema.query.types.Path;
+import com.mysema.query.types.PathMetadata;
+import com.mysema.query.types.path.BooleanPath;
+import com.mysema.query.types.path.DateTimePath;
+import com.mysema.query.types.path.EntityPathBase;
+import com.mysema.query.types.path.NumberPath;
+import com.mysema.query.types.path.StringPath;
 
 /**
  * QEntrega is a Querydsl query type for Entrega
@@ -46,6 +50,8 @@ public class QEntrega extends EntityPathBase<Entrega> {
 	public final NumberPath<Integer> id = createNumber("id", Integer.class);
 
 	public final StringPath titulo = createString("titulo");
+
+	public final StringPath volume = createString("volume");
 
 	public QEntrega(String variable) {
 		super(Entrega.class, forVariable(variable));
