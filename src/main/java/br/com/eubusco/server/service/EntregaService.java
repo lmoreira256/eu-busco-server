@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.eubusco.server.dto.RetornoEntregasDisponiveisDTO;
 import br.com.eubusco.server.model.Entrega;
 
 @RestController
@@ -24,5 +25,9 @@ public interface EntregaService {
 	@CrossOrigin
 	@RequestMapping(path = "buscarAbertasEntregador", method = RequestMethod.GET, produces = "application/json")
 	public abstract List<Entrega> buscarAbertasEntregador(Integer idUsuario);
+
+	@CrossOrigin
+	@RequestMapping(path = "buscarDisponiveis", method = RequestMethod.GET, produces = "application/json")
+	public abstract List<RetornoEntregasDisponiveisDTO> buscarDisponiveis();
 
 }

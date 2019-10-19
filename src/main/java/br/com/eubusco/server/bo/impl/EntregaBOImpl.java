@@ -1,5 +1,6 @@
 package br.com.eubusco.server.bo.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.eubusco.server.bo.EntregaBO;
 import br.com.eubusco.server.constantes.MensagemService;
+import br.com.eubusco.server.dao.EnderecoDAO;
 import br.com.eubusco.server.dao.EntregaDAO;
+import br.com.eubusco.server.dao.UsuarioDAO;
+import br.com.eubusco.server.dto.RetornoEntregasDisponiveisDTO;
 import br.com.eubusco.server.model.Entrega;
 import br.com.eubusco.server.resources.Resource;
 
@@ -22,6 +26,12 @@ public class EntregaBOImpl implements EntregaBO {
 
 	@Autowired
 	private EntregaDAO entregaDAO;
+
+	@Autowired
+	private EnderecoDAO enderecoDAO;
+
+	@Autowired
+	private UsuarioDAO usuarioDAO;
 
 	@Override
 	public Boolean salvar(Entrega entrega) {
@@ -60,6 +70,32 @@ public class EntregaBOImpl implements EntregaBO {
 		}
 
 		return entregaDAO.buscarAbertasEntregador(idUsuario);
+	}
+
+	@Override
+	public List<RetornoEntregasDisponiveisDTO> buscarDisponiveis() {
+		logger.info("==> Executando o método buscarDisponiveis.");
+
+		List<Entrega> entregaList = entregaDAO.buscarDisponiveis();
+		List<RetornoEntregasDisponiveisDTO> retorno = new ArrayList<RetornoEntregasDisponiveisDTO>();
+
+		if (entregaList != null) {
+			entregaList.stream().forEach(x -> {
+				RetornoEntregasDisponiveisDTO entrega = new RetornoEntregasDisponiveisDTO();
+				entrega.setDataColetaEntrega(x.getDataColeta());
+				entrega.setDataPrazoEntrega(x.getDataPrazoEntrega());
+				entrega.setDescricaoEntrega(x.getDescricao());
+				entrega.setEnderecoColeta(enderecoDAO.buscarPorId(x.getCodigoEnderecoColeta()));
+				entrega.setEnderecoEntrega(enderecoDAO.buscarPorId(x.getCodigoEnderecoEntrega()));
+				entrega.setNomeCliente(usuarioDAO.buscarNomePorId(x.getCodigoCliente()));
+				entrega.setTituloEntrega(x.getTitulo());
+				entrega.setVolumeEntrega(x.getVolume());
+
+				retorno.add(entrega);
+			});
+		}
+
+		return retorno;
 	}
 
 }

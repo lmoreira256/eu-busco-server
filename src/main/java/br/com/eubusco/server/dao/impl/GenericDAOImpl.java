@@ -230,7 +230,7 @@ public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
 	}
 
 	@Override
-	public T buscarPorId(Long id) {
+	public T buscarPorId(Integer id) {
 		return from().where(this.getPathBuilder().get(ID).eq(id)).uniqueResult(this.getPathBuilder());
 	}
 

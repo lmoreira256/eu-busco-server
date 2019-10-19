@@ -72,7 +72,7 @@ public interface GenericDAO<T> {
 	/**
 	 * Busca pelo atributo Id da classe informada
 	 */
-	public abstract T buscarPorId(Long id);
+	public abstract T buscarPorId(Integer integer);
 
 	/**
 	 * Retorna a implementação padrão da classe JPASQLQuery.

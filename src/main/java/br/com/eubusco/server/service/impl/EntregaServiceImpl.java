@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.eubusco.server.bo.EntregaBO;
+import br.com.eubusco.server.dto.RetornoEntregasDisponiveisDTO;
 import br.com.eubusco.server.model.Entrega;
 import br.com.eubusco.server.service.EntregaService;
 
@@ -41,6 +42,13 @@ public class EntregaServiceImpl implements EntregaService {
 		logger.info("==> Executando o método buscarAbertasEntregador.");
 
 		return entregaBO.buscarAbertasEntregador(idUsuario);
+	}
+
+	@Override
+	public List<RetornoEntregasDisponiveisDTO> buscarDisponiveis() {
+		logger.info("==> Executando o método buscarDisponiveis.");
+
+		return entregaBO.buscarDisponiveis();
 	}
 
 }
