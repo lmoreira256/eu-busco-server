@@ -5,12 +5,11 @@ import java.util.List;
 import javax.annotation.ManagedBean;
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.eubusco.server.bo.EntregaBO;
+import br.com.eubusco.server.dto.ParametroPegarEntregaDTO;
 import br.com.eubusco.server.dto.RetornoEntregasDisponiveisDTO;
 import br.com.eubusco.server.model.Entrega;
 import br.com.eubusco.server.service.EntregaService;
@@ -18,37 +17,32 @@ import br.com.eubusco.server.service.EntregaService;
 @ManagedBean
 public class EntregaServiceImpl implements EntregaService {
 
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
 	@Autowired
 	private EntregaBO entregaBO;
 
 	@Override
 	public Boolean salvar(@RequestBody @Valid Entrega entrega) {
-		logger.info("==> Executando o método salvar.");
-
 		return entregaBO.salvar(entrega);
 	}
 
 	@Override
-	public List<Entrega> buscarAbertasCliente(Integer idUsuario) {
-		logger.info("==> Executando o método buscarAbertasCliente.");
-
+	public List<RetornoEntregasDisponiveisDTO> buscarAbertasCliente(Integer idUsuario) {
 		return entregaBO.buscarAbertasCliente(idUsuario);
 	}
 
 	@Override
-	public List<Entrega> buscarAbertasEntregador(Integer idUsuario) {
-		logger.info("==> Executando o método buscarAbertasEntregador.");
-
+	public List<RetornoEntregasDisponiveisDTO> buscarAbertasEntregador(Integer idUsuario) {
 		return entregaBO.buscarAbertasEntregador(idUsuario);
 	}
 
 	@Override
 	public List<RetornoEntregasDisponiveisDTO> buscarDisponiveis() {
-		logger.info("==> Executando o método buscarDisponiveis.");
-
 		return entregaBO.buscarDisponiveis();
+	}
+
+	@Override
+	public Boolean pegarEntrega(@RequestBody @Valid ParametroPegarEntregaDTO parametroPegarEntregaDTO) {
+		return entregaBO.pegarEntrega(parametroPegarEntregaDTO);
 	}
 
 }

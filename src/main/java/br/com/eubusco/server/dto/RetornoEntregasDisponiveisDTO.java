@@ -1,11 +1,14 @@
 package br.com.eubusco.server.dto;
 
 import java.util.Date;
+import java.util.List;
 
+import br.com.eubusco.server.model.Contato;
 import br.com.eubusco.server.model.Endereco;
 
 public class RetornoEntregasDisponiveisDTO {
 
+	private Integer idEntrega;
 	private String nomeCliente;
 	private Endereco enderecoColeta;
 	private Endereco enderecoEntrega;
@@ -14,14 +17,16 @@ public class RetornoEntregasDisponiveisDTO {
 	private Date dataColetaEntrega;
 	private Date dataPrazoEntrega;
 	private String volumeEntrega;
+	private List<Contato> contatosCliente;
 
 	public RetornoEntregasDisponiveisDTO() {
 	}
 
-	public RetornoEntregasDisponiveisDTO(String nomeCliente, Endereco enderecoColeta, Endereco enderecoEntrega,
-			String tituloEntrega, String descricaoEntrega, Date dataColetaEntrega, Date dataPrazoEntrega,
-			String volumeEntrega) {
+	public RetornoEntregasDisponiveisDTO(Integer idEntrega, String nomeCliente, Endereco enderecoColeta,
+			Endereco enderecoEntrega, String tituloEntrega, String descricaoEntrega, Date dataColetaEntrega,
+			Date dataPrazoEntrega, String volumeEntrega, List<Contato> contatosCliente) {
 		super();
+		this.idEntrega = idEntrega;
 		this.nomeCliente = nomeCliente;
 		this.enderecoColeta = enderecoColeta;
 		this.enderecoEntrega = enderecoEntrega;
@@ -30,6 +35,15 @@ public class RetornoEntregasDisponiveisDTO {
 		this.dataColetaEntrega = dataColetaEntrega;
 		this.dataPrazoEntrega = dataPrazoEntrega;
 		this.volumeEntrega = volumeEntrega;
+		this.contatosCliente = contatosCliente;
+	}
+
+	public Integer getIdEntrega() {
+		return idEntrega;
+	}
+
+	public void setIdEntrega(Integer idEntrega) {
+		this.idEntrega = idEntrega;
 	}
 
 	public String getNomeCliente() {
@@ -94,6 +108,14 @@ public class RetornoEntregasDisponiveisDTO {
 
 	public void setVolumeEntrega(String volumeEntrega) {
 		this.volumeEntrega = volumeEntrega;
+	}
+
+	public List<Contato> getContatosCliente() {
+		return contatosCliente;
+	}
+
+	public void setContatosCliente(List<Contato> contatosCliente) {
+		this.contatosCliente = contatosCliente;
 	}
 
 }

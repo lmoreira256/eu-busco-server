@@ -12,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.eubusco.server.bo.EntregaBO;
 import br.com.eubusco.server.constantes.MensagemService;
+import br.com.eubusco.server.dao.ContatoDAO;
 import br.com.eubusco.server.dao.EnderecoDAO;
 import br.com.eubusco.server.dao.EntregaDAO;
 import br.com.eubusco.server.dao.UsuarioDAO;
+import br.com.eubusco.server.dto.ParametroPegarEntregaDTO;
 import br.com.eubusco.server.dto.RetornoEntregasDisponiveisDTO;
 import br.com.eubusco.server.model.Entrega;
 import br.com.eubusco.server.resources.Resource;
@@ -32,6 +34,9 @@ public class EntregaBOImpl implements EntregaBO {
 
 	@Autowired
 	private UsuarioDAO usuarioDAO;
+
+	@Autowired
+	private ContatoDAO contatoDAO;
 
 	@Override
 	public Boolean salvar(Entrega entrega) {
@@ -51,37 +56,41 @@ public class EntregaBOImpl implements EntregaBO {
 	}
 
 	@Override
-	public List<Entrega> buscarAbertasCliente(Integer idUsuario) {
+	public List<RetornoEntregasDisponiveisDTO> buscarAbertasCliente(Integer idUsuario) {
 		logger.info("==> Executando o método buscarAbertasCliente.");
 
 		if (idUsuario == null) {
 			throw Resource.getServerException(MensagemService.PARAMETRO_NULO);
 		}
 
-		return entregaDAO.buscarAbertasCliente(idUsuario);
+		return this.montarDTO(entregaDAO.buscarAbertasCliente(idUsuario));
 	}
 
 	@Override
-	public List<Entrega> buscarAbertasEntregador(Integer idUsuario) {
+	public List<RetornoEntregasDisponiveisDTO> buscarAbertasEntregador(Integer idUsuario) {
 		logger.info("==> Executando o método buscarAbertasEntregador.");
 
 		if (idUsuario == null) {
 			throw Resource.getServerException(MensagemService.PARAMETRO_NULO);
 		}
 
-		return entregaDAO.buscarAbertasEntregador(idUsuario);
+		return this.montarDTO(entregaDAO.buscarAbertasEntregador(idUsuario));
 	}
 
 	@Override
 	public List<RetornoEntregasDisponiveisDTO> buscarDisponiveis() {
 		logger.info("==> Executando o método buscarDisponiveis.");
 
-		List<Entrega> entregaList = entregaDAO.buscarDisponiveis();
+		return this.montarDTO(entregaDAO.buscarDisponiveis());
+	}
+
+	private List<RetornoEntregasDisponiveisDTO> montarDTO(List<Entrega> listaEntregas) {
 		List<RetornoEntregasDisponiveisDTO> retorno = new ArrayList<RetornoEntregasDisponiveisDTO>();
 
-		if (entregaList != null) {
-			entregaList.stream().forEach(x -> {
+		if (listaEntregas != null) {
+			listaEntregas.stream().forEach(x -> {
 				RetornoEntregasDisponiveisDTO entrega = new RetornoEntregasDisponiveisDTO();
+				entrega.setIdEntrega(x.getId());
 				entrega.setDataColetaEntrega(x.getDataColeta());
 				entrega.setDataPrazoEntrega(x.getDataPrazoEntrega());
 				entrega.setDescricaoEntrega(x.getDescricao());
@@ -90,12 +99,30 @@ public class EntregaBOImpl implements EntregaBO {
 				entrega.setNomeCliente(usuarioDAO.buscarNomePorId(x.getCodigoCliente()));
 				entrega.setTituloEntrega(x.getTitulo());
 				entrega.setVolumeEntrega(x.getVolume());
+				entrega.setContatosCliente(contatoDAO.buscarContatosUsuario(x.getCodigoCliente()));
 
 				retorno.add(entrega);
 			});
 		}
 
 		return retorno;
+	}
+
+	@Override
+	public Boolean pegarEntrega(ParametroPegarEntregaDTO parametroPegarEntregaDTO) {
+		logger.info("==> Executando o método pegarEntrega.");
+
+		if (parametroPegarEntregaDTO == null) {
+			throw Resource.getServerException(MensagemService.PARAMETRO_NULO);
+		}
+
+		Entrega entrega = entregaDAO.buscarPorId(parametroPegarEntregaDTO.getCodigoEntrega());
+		entrega.setCodigoEntregador(parametroPegarEntregaDTO.getCodigoEntregador());
+		entrega.setDataManutencao(new Date());
+
+		entregaDAO.salvar(entrega);
+
+		return Boolean.TRUE;
 	}
 
 }

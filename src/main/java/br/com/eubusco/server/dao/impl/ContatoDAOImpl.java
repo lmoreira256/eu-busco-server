@@ -1,5 +1,9 @@
 package br.com.eubusco.server.dao.impl;
 
+import static br.com.eubusco.server.model.QContato.contato;
+
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,6 +23,11 @@ public class ContatoDAOImpl extends GenericDAOImpl<Contato> implements ContatoDA
 	@PostConstruct
 	public void inicializar() {
 		setEntityManager(entityManager);
+	}
+
+	@Override
+	public List<Contato> buscarContatosUsuario(Integer codigoUsuario) {
+		return from().where(contato.codigoUsuario.eq(codigoUsuario)).list(contato);
 	}
 
 }
