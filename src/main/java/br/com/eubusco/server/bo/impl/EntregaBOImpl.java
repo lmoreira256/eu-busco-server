@@ -125,4 +125,43 @@ public class EntregaBOImpl implements EntregaBO {
 		return Boolean.TRUE;
 	}
 
+	@Override
+	public Boolean largarEntrega(Integer codigoEntrega) {
+		logger.info("==> Executando o método largarEntrega.");
+
+		if (codigoEntrega == null) {
+			throw Resource.getServerException(MensagemService.PARAMETRO_NULO);
+		}
+
+		Entrega entrega = entregaDAO.buscarPorId(codigoEntrega);
+		entrega.setCodigoEntregador(null);
+		entrega.setDataManutencao(new Date());
+
+		entregaDAO.salvar(entrega);
+
+		return Boolean.TRUE;
+	}
+
+	@Override
+	public Boolean excluirEntrega(Integer codigoEntrega) {
+		logger.info("==> Executando o método excluirEntrega.");
+
+		if (codigoEntrega == null) {
+			throw Resource.getServerException(MensagemService.PARAMETRO_NULO);
+		}
+
+		Entrega entrega = entregaDAO.buscarPorId(codigoEntrega);
+		entrega.setDataManutencao(new Date());
+		entrega.setDataExclusao(new Date());
+
+		entregaDAO.salvar(entrega);
+
+		return Boolean.TRUE;
+	}
+
+	@Override
+	public List<RetornoEntregasDisponiveisDTO> buscarTodasAbertas() {
+		return this.montarDTO(entregaDAO.buscarTodasAbertas());
+	}
+
 }

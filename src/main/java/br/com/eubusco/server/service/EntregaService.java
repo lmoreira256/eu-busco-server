@@ -35,4 +35,16 @@ public interface EntregaService {
 	@RequestMapping(path = "pegarEntrega", method = RequestMethod.POST, produces = "application/json")
 	public abstract Boolean pegarEntrega(ParametroPegarEntregaDTO parametroPegarEntregaDTO);
 
+	@CrossOrigin
+	@RequestMapping(path = "largarEntrega", method = RequestMethod.POST, produces = "application/json")
+	public abstract Boolean largarEntrega(Integer codigoEntrega);
+
+	@CrossOrigin
+	@RequestMapping(path = "excluirEntrega", method = RequestMethod.POST, produces = "application/json")
+	public abstract Boolean excluirEntrega(Integer codigoEntrega);
+
+	@CrossOrigin
+	@RequestMapping(path = "buscarTodasAbertas", method = RequestMethod.GET, produces = "application/json")
+	public abstract List<RetornoEntregasDisponiveisDTO> buscarTodasAbertas();
+
 }

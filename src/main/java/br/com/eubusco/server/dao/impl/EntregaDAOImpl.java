@@ -28,7 +28,7 @@ public class EntregaDAOImpl extends GenericDAOImpl<Entrega> implements EntregaDA
 	@Override
 	public Long adquirirEntragasAbertasUsuario(Integer idUsuario) {
 		return from().where(entrega.flagFinalizada.eq(Boolean.FALSE).and(entrega.codigoCliente.eq(idUsuario))
-				.or(entrega.codigoEntregador.eq(idUsuario))).count();
+				.or(entrega.codigoEntregador.eq(idUsuario)).and(entrega.dataExclusao.isNull())).count();
 	}
 
 	@Override
@@ -38,20 +38,25 @@ public class EntregaDAOImpl extends GenericDAOImpl<Entrega> implements EntregaDA
 
 	@Override
 	public List<Entrega> buscarAbertasCliente(Integer idUsuario) {
-		return from().where(entrega.flagFinalizada.eq(Boolean.FALSE).and(entrega.codigoCliente.eq(idUsuario)))
-				.list(entrega);
+		return from().where(entrega.flagFinalizada.eq(Boolean.FALSE).and(entrega.codigoCliente.eq(idUsuario))
+				.and(entrega.dataExclusao.isNull())).list(entrega);
 	}
 
 	@Override
 	public List<Entrega> buscarAbertasEntregador(Integer idUsuario) {
-		return from().where(entrega.flagFinalizada.eq(Boolean.FALSE).and(entrega.codigoEntregador.eq(idUsuario)))
-				.list(entrega);
+		return from().where(entrega.flagFinalizada.eq(Boolean.FALSE).and(entrega.codigoEntregador.eq(idUsuario))
+				.and(entrega.dataExclusao.isNull())).list(entrega);
 	}
 
 	@Override
 	public List<Entrega> buscarDisponiveis() {
-		return from().where(entrega.flagFinalizada.eq(Boolean.FALSE).and(entrega.codigoEntregador.isNull()))
-				.list(entrega);
+		return from().where(entrega.flagFinalizada.eq(Boolean.FALSE).and(entrega.codigoEntregador.isNull())
+				.and(entrega.dataExclusao.isNull())).list(entrega);
+	}
+
+	@Override
+	public List<Entrega> buscarTodasAbertas() {
+		return from().where(entrega.flagFinalizada.eq(Boolean.FALSE).and(entrega.dataExclusao.isNull())).list(entrega);
 	}
 
 }

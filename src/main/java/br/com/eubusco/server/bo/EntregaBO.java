@@ -18,4 +18,10 @@ public interface EntregaBO {
 
 	public abstract Boolean pegarEntrega(ParametroPegarEntregaDTO parametroPegarEntregaDTO);
 
+	public abstract Boolean largarEntrega(Integer codigoEntrega);
+
+	public abstract Boolean excluirEntrega(Integer codigoEntrega);
+
+	public abstract List<RetornoEntregasDisponiveisDTO> buscarTodasAbertas();
+
 }

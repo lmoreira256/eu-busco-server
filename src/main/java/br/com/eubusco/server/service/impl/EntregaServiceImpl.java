@@ -45,4 +45,19 @@ public class EntregaServiceImpl implements EntregaService {
 		return entregaBO.pegarEntrega(parametroPegarEntregaDTO);
 	}
 
+	@Override
+	public Boolean largarEntrega(@RequestBody @Valid Integer codigoEntrega) {
+		return entregaBO.largarEntrega(codigoEntrega);
+	}
+
+	@Override
+	public Boolean excluirEntrega(@RequestBody @Valid Integer codigoEntrega) {
+		return entregaBO.excluirEntrega(codigoEntrega);
+	}
+
+	@Override
+	public List<RetornoEntregasDisponiveisDTO> buscarTodasAbertas() {
+		return entregaBO.buscarTodasAbertas();
+	}
+
 }

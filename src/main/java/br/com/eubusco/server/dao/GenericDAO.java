@@ -67,7 +67,7 @@ public interface GenericDAO<T> {
 	 * @return
 	 * @throws BusinessServerException
 	 */
-	public abstract T excluirPorId(Long id);
+	public abstract T excluirPorId(Integer id);
 
 	/**
 	 * Busca pelo atributo Id da classe informada

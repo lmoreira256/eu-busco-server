@@ -216,7 +216,7 @@ public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
 	}
 
 	@Override
-	public T excluirPorId(Long id) {
+	public T excluirPorId(Integer id) {
 		T t = from().where(this.getPathBuilder().get(ID).eq(id)).uniqueResult(this.getPathBuilder());
 
 		if (deleteClause().where(this.getPathBuilder().get(ID).eq(id)).execute() > 0) {
