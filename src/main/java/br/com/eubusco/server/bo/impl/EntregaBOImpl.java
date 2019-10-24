@@ -99,7 +99,7 @@ public class EntregaBOImpl implements EntregaBO {
 				entrega.setNomeCliente(usuarioDAO.buscarNomePorId(x.getCodigoCliente()));
 				entrega.setTituloEntrega(x.getTitulo());
 				entrega.setVolumeEntrega(x.getVolume());
-				entrega.setContatosCliente(contatoDAO.buscarContatosUsuario(x.getCodigoCliente()));
+				entrega.setContatosCliente(contatoDAO.adquirirPorUsuario(x.getCodigoCliente()));
 
 				retorno.add(entrega);
 			});

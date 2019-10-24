@@ -158,4 +158,11 @@ public class UsuarioBOImpl implements UsuarioBO {
 		return dadosUsuarioDTO;
 	}
 
+	@Override
+	public List<Usuario> buscarTodosUsuarios() {
+		logger.info("==> Executando o método buscarTodosUsuarios.");
+
+		return usuarioDAO.buscarTodos();
+	}
+
 }

@@ -26,7 +26,7 @@ public class ContatoDAOImpl extends GenericDAOImpl<Contato> implements ContatoDA
 	}
 
 	@Override
-	public List<Contato> buscarContatosUsuario(Integer codigoUsuario) {
+	public List<Contato> adquirirPorUsuario(Integer codigoUsuario) {
 		return from().where(contato.codigoUsuario.eq(codigoUsuario)).list(contato);
 	}
 

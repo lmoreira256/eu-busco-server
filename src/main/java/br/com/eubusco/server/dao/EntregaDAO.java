@@ -2,7 +2,6 @@ package br.com.eubusco.server.dao;
 
 import java.util.List;
 
-import br.com.eubusco.server.dto.RetornoEntregasDisponiveisDTO;
 import br.com.eubusco.server.model.Entrega;
 
 public interface EntregaDAO extends GenericDAO<Entrega> {
