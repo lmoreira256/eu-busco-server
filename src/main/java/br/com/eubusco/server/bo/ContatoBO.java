@@ -8,4 +8,6 @@ public interface ContatoBO {
 
 	public abstract List<Contato> adquirirPorUsuario(Integer codigoUsuario);
 
+	public abstract Boolean salvarContato(Contato contato);
+
 }

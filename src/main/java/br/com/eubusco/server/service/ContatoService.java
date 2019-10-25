@@ -17,4 +17,8 @@ public interface ContatoService {
 	@RequestMapping(path = "adquirirPorUsuario", method = RequestMethod.GET, produces = "application/json")
 	public abstract List<Contato> adquirirPorUsuario(Integer codigoUsuario);
 
+	@CrossOrigin
+	@RequestMapping(path = "salvarContato", method = RequestMethod.POST, produces = "application/json")
+	public abstract Boolean salvarContato(Contato contato);
+
 }
