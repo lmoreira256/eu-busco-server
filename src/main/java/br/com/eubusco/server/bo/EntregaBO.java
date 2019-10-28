@@ -24,4 +24,6 @@ public interface EntregaBO {
 
 	public abstract List<RetornoEntregasDisponiveisDTO> buscarTodasAbertas();
 
+	public abstract Boolean finalizarEntrega(Integer codigoEntrega);
+
 }

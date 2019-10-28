@@ -26,13 +26,14 @@ public class EntregaDAOImpl extends GenericDAOImpl<Entrega> implements EntregaDA
 	}
 
 	@Override
-	public Long adquirirEntragasAbertasUsuario(Integer idUsuario) {
+	public Long adquirirEntregasAbertasUsuario(Integer idUsuario) {
 		return from().where(entrega.flagFinalizada.eq(Boolean.FALSE).and(entrega.codigoCliente.eq(idUsuario))
-				.or(entrega.codigoEntregador.eq(idUsuario)).and(entrega.dataExclusao.isNull())).count();
+				.or(entrega.codigoEntregador.eq(idUsuario)).and(entrega.dataExclusao.isNull())
+				.and(entrega.flagFinalizada.isFalse())).count();
 	}
 
 	@Override
-	public Long adquirirTotalEntragasUsuario(Integer idUsuario) {
+	public Long adquirirTotalEntregasUsuario(Integer idUsuario) {
 		return from().where(entrega.codigoCliente.eq(idUsuario).or(entrega.codigoEntregador.eq(idUsuario))).count();
 	}
 

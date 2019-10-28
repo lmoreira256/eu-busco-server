@@ -152,8 +152,8 @@ public class UsuarioBOImpl implements UsuarioBO {
 
 		DadosUsuarioDTO dadosUsuarioDTO = new DadosUsuarioDTO();
 		dadosUsuarioDTO.setNota(avaliacaoDAO.adiquirirNotaUsuario(idUsuario));
-		dadosUsuarioDTO.setEntregasAbertas(entregaDAO.adquirirEntragasAbertasUsuario(idUsuario));
-		dadosUsuarioDTO.setTotalEntregas(entregaDAO.adquirirTotalEntragasUsuario(idUsuario));
+		dadosUsuarioDTO.setEntregasAbertas(entregaDAO.adquirirEntregasAbertasUsuario(idUsuario));
+		dadosUsuarioDTO.setTotalEntregas(entregaDAO.adquirirTotalEntregasUsuario(idUsuario));
 
 		return dadosUsuarioDTO;
 	}

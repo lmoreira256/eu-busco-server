@@ -164,4 +164,21 @@ public class EntregaBOImpl implements EntregaBO {
 		return this.montarDTO(entregaDAO.buscarTodasAbertas());
 	}
 
+	@Override
+	public Boolean finalizarEntrega(Integer codigoEntrega) {
+		logger.info("==> Executando o método finalizarEntrega.");	
+
+		if (codigoEntrega == null) {
+			throw Resource.getServerException(MensagemService.PARAMETRO_NULO);
+		}
+
+		Entrega entrega = entregaDAO.buscarPorId(codigoEntrega);
+		entrega.setDataManutencao(new Date());
+		entrega.setFlagFinalizada(Boolean.TRUE);
+
+		entregaDAO.salvar(entrega);
+
+		return Boolean.TRUE;
+	}
+
 }

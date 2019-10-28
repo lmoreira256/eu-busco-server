@@ -47,4 +47,8 @@ public interface EntregaService {
 	@RequestMapping(path = "buscarTodasAbertas", method = RequestMethod.GET, produces = "application/json")
 	public abstract List<RetornoEntregasDisponiveisDTO> buscarTodasAbertas();
 
+	@CrossOrigin
+	@RequestMapping(path = "finalizarEntrega", method = RequestMethod.POST, produces = "application/json")
+	public abstract Boolean finalizarEntrega(Integer codigoEntrega);
+
 }

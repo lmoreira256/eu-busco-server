@@ -60,4 +60,9 @@ public class EntregaServiceImpl implements EntregaService {
 		return entregaBO.buscarTodasAbertas();
 	}
 
+	@Override
+	public Boolean finalizarEntrega(@RequestBody @Valid Integer codigoEntrega) {
+		return entregaBO.finalizarEntrega(codigoEntrega);
+	}
+
 }
