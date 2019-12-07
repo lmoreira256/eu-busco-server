@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import br.com.eubusco.server.bo.AvaliacaoBO;
 import br.com.eubusco.server.constantes.MensagemService;
 import br.com.eubusco.server.dao.AvaliacaoDAO;
+import br.com.eubusco.server.dao.EntregaDAO;
+import br.com.eubusco.server.dao.UsuarioDAO;
 import br.com.eubusco.server.model.Avaliacao;
+import br.com.eubusco.server.model.Usuario;
 import br.com.eubusco.server.resources.Resource;
 
 @ManagedBean
@@ -20,6 +23,12 @@ public class AvaliacaoBOImpl implements AvaliacaoBO {
 	@Autowired
 	private AvaliacaoDAO avaliacaoDAO;
 
+	@Autowired
+	private UsuarioDAO usuarioDAO;
+
+	@Autowired
+	private EntregaDAO entregaDAO;
+
 	@Override
 	public Boolean salvar(Avaliacao avaliacao) {
 		logger.info("==> Executando o método salvar.");
@@ -28,9 +37,16 @@ public class AvaliacaoBOImpl implements AvaliacaoBO {
 			throw Resource.getServerException(MensagemService.PARAMETRO_NULO);
 		}
 
-		Avaliacao retorno = avaliacaoDAO.salvar(avaliacao);
+		Usuario usuario = usuarioDAO.buscarPorId(avaliacao.getCodigoCliente());
+		Boolean usuarioCliente = usuario.getCodigoTipoUsuario() == 2;
 
-		return retorno != null;
+		avaliacao.setCodigoTipoAvaliacao(usuarioCliente ? 1 : 2);
+		avaliacao.setCodigoEntregador(entregaDAO.buscarCodigoEntregador(avaliacao.getCodigoEntrega()));
+		avaliacao.setCodigoCliente(entregaDAO.buscarCodigoCliente(avaliacao.getCodigoEntrega()));
+
+		avaliacao = avaliacaoDAO.salvar(avaliacao);
+
+		return avaliacao != null;
 	}
 
 }

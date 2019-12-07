@@ -1,5 +1,6 @@
 package br.com.eubusco.server.dao.impl;
 
+import static br.com.eubusco.server.model.QAvaliacao.avaliacao;
 import static br.com.eubusco.server.model.QEntrega.entrega;
 
 import java.util.List;
@@ -9,6 +10,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
+
+import com.mysema.query.sql.SQLSubQuery;
 
 import br.com.eubusco.server.dao.EntregaDAO;
 import br.com.eubusco.server.model.Entrega;
@@ -58,6 +61,26 @@ public class EntregaDAOImpl extends GenericDAOImpl<Entrega> implements EntregaDA
 	@Override
 	public List<Entrega> buscarTodasAbertas() {
 		return from().where(entrega.flagFinalizada.eq(Boolean.FALSE).and(entrega.dataExclusao.isNull())).list(entrega);
+	}
+
+	@Override
+	public List<Entrega> buscarEntregasAvaliacao(Integer codigoUsuario, Integer codigoTipoUsuario) {
+		SQLSubQuery subAvaliacao = sqlSubQuery().from(avaliacao)
+				.where(avaliacao.codigoTipoAvaliacao.eq(codigoTipoUsuario == 2 ? 1 : 2));
+
+		return from().where(entrega.codigoCliente.eq(codigoUsuario).or(entrega.codigoEntregador.eq(codigoUsuario))
+				.and(entrega.id.notIn(subAvaliacao.list(avaliacao.codigoEntrega)))
+				.and(entrega.flagFinalizada.eq(Boolean.TRUE))).list(entrega);
+	}
+
+	@Override
+	public Integer buscarCodigoCliente(Integer codigoEntrega) {
+		return from().where(entrega.id.eq(codigoEntrega)).uniqueResult(entrega.codigoCliente);
+	}
+
+	@Override
+	public Integer buscarCodigoEntregador(Integer codigoEntrega) {
+		return from().where(entrega.id.eq(codigoEntrega)).uniqueResult(entrega.codigoEntregador);
 	}
 
 }

@@ -3,6 +3,7 @@ package br.com.eubusco.server.bo;
 import java.util.List;
 
 import br.com.eubusco.server.dto.ParametroPegarEntregaDTO;
+import br.com.eubusco.server.dto.RetornoEntregaAvaliacaoDTO;
 import br.com.eubusco.server.dto.RetornoEntregasDisponiveisDTO;
 import br.com.eubusco.server.model.Entrega;
 
@@ -25,5 +26,7 @@ public interface EntregaBO {
 	public abstract List<RetornoEntregasDisponiveisDTO> buscarTodasAbertas();
 
 	public abstract Boolean finalizarEntrega(Integer codigoEntrega);
+
+	public abstract List<RetornoEntregaAvaliacaoDTO> buscarEntregasAvaliacao(Integer codigoUsuario);
 
 }

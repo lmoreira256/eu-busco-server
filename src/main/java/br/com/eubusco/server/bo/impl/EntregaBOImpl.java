@@ -17,8 +17,10 @@ import br.com.eubusco.server.dao.EnderecoDAO;
 import br.com.eubusco.server.dao.EntregaDAO;
 import br.com.eubusco.server.dao.UsuarioDAO;
 import br.com.eubusco.server.dto.ParametroPegarEntregaDTO;
+import br.com.eubusco.server.dto.RetornoEntregaAvaliacaoDTO;
 import br.com.eubusco.server.dto.RetornoEntregasDisponiveisDTO;
 import br.com.eubusco.server.model.Entrega;
+import br.com.eubusco.server.model.Usuario;
 import br.com.eubusco.server.resources.Resource;
 
 @ManagedBean
@@ -166,7 +168,7 @@ public class EntregaBOImpl implements EntregaBO {
 
 	@Override
 	public Boolean finalizarEntrega(Integer codigoEntrega) {
-		logger.info("==> Executando o método finalizarEntrega.");	
+		logger.info("==> Executando o método finalizarEntrega.");
 
 		if (codigoEntrega == null) {
 			throw Resource.getServerException(MensagemService.PARAMETRO_NULO);
@@ -179,6 +181,33 @@ public class EntregaBOImpl implements EntregaBO {
 		entregaDAO.salvar(entrega);
 
 		return Boolean.TRUE;
+	}
+
+	@Override
+	public List<RetornoEntregaAvaliacaoDTO> buscarEntregasAvaliacao(Integer codigoUsuario) {
+		logger.info("==> Executando o método buscarEntregasAvaliacao.");
+
+		Usuario usuario = usuarioDAO.buscarPorId(codigoUsuario);
+		List<Entrega> entregas = entregaDAO.buscarEntregasAvaliacao(codigoUsuario, usuario.getCodigoTipoUsuario());
+
+		List<RetornoEntregaAvaliacaoDTO> retorno = new ArrayList<RetornoEntregaAvaliacaoDTO>();
+
+		entregas.stream().forEach(x -> {
+			RetornoEntregaAvaliacaoDTO retornoEntregaAvaliacaoDTO = new RetornoEntregaAvaliacaoDTO();
+
+			retornoEntregaAvaliacaoDTO.setCodigoEntrega(x.getId());
+			retornoEntregaAvaliacaoDTO.setTituloEntrega(x.getTitulo());
+
+			if (usuario.getCodigoTipoUsuario() == 2) {
+				retornoEntregaAvaliacaoDTO.setNomeAvaliado(usuarioDAO.buscarNomePorId(x.getCodigoEntregador()));
+			} else {
+				retornoEntregaAvaliacaoDTO.setNomeAvaliado(usuarioDAO.buscarNomePorId(x.getCodigoCliente()));
+			}
+
+			retorno.add(retornoEntregaAvaliacaoDTO);
+		});
+
+		return retorno;
 	}
 
 }

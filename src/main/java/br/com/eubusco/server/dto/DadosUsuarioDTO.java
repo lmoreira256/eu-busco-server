@@ -1,26 +1,28 @@
 package br.com.eubusco.server.dto;
 
+import java.math.BigDecimal;
+
 public class DadosUsuarioDTO {
 
-	private Long nota;
+	private BigDecimal nota;
 	private Long entregasAbertas;
 	private Long totalEntregas;
 
 	public DadosUsuarioDTO() {
 	}
 
-	public DadosUsuarioDTO(Long nota, Long entregasAbertas, Long totalEntregas) {
+	public DadosUsuarioDTO(BigDecimal nota, Long entregasAbertas, Long totalEntregas) {
 		super();
 		this.nota = nota;
 		this.entregasAbertas = entregasAbertas;
 		this.totalEntregas = totalEntregas;
 	}
 
-	public Long getNota() {
+	public BigDecimal getNota() {
 		return nota;
 	}
 
-	public void setNota(Long nota) {
+	public void setNota(BigDecimal nota) {
 		this.nota = nota;
 	}
 

@@ -143,17 +143,19 @@ public class UsuarioBOImpl implements UsuarioBO {
 	}
 
 	@Override
-	public DadosUsuarioDTO buscarDadosUsuario(Integer idUsuario) {
+	public DadosUsuarioDTO buscarDadosUsuario(Integer codigoUsuario) {
 		logger.info("==> Executando o método buscarDadosUsuario.");
 
-		if (idUsuario == null) {
+		if (codigoUsuario == null) {
 			throw Resource.getServerException(MensagemService.PARAMETRO_NULO);
 		}
 
+		Usuario usuario = usuarioDAO.buscarPorId(codigoUsuario);
+
 		DadosUsuarioDTO dadosUsuarioDTO = new DadosUsuarioDTO();
-		dadosUsuarioDTO.setNota(avaliacaoDAO.adiquirirNotaUsuario(idUsuario));
-		dadosUsuarioDTO.setEntregasAbertas(entregaDAO.adquirirEntregasAbertasUsuario(idUsuario));
-		dadosUsuarioDTO.setTotalEntregas(entregaDAO.adquirirTotalEntregasUsuario(idUsuario));
+		dadosUsuarioDTO.setNota(avaliacaoDAO.adiquirirNotaUsuario(codigoUsuario, usuario.getCodigoTipoUsuario()));
+		dadosUsuarioDTO.setEntregasAbertas(entregaDAO.adquirirEntregasAbertasUsuario(codigoUsuario));
+		dadosUsuarioDTO.setTotalEntregas(entregaDAO.adquirirTotalEntregasUsuario(codigoUsuario));
 
 		return dadosUsuarioDTO;
 	}

@@ -16,7 +16,7 @@ public class Avaliacao implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "id_usuario")
+	@Column(name = "id_avaliacao")
 	@GeneratedValue(generator = "gen_avaliacao", strategy = GenerationType.IDENTITY)
 	private Integer id;
 

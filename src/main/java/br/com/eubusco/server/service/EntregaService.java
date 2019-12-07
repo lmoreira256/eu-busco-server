@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.eubusco.server.dto.ParametroPegarEntregaDTO;
+import br.com.eubusco.server.dto.RetornoEntregaAvaliacaoDTO;
 import br.com.eubusco.server.dto.RetornoEntregasDisponiveisDTO;
 import br.com.eubusco.server.model.Entrega;
 
@@ -50,5 +51,9 @@ public interface EntregaService {
 	@CrossOrigin
 	@RequestMapping(path = "finalizarEntrega", method = RequestMethod.POST, produces = "application/json")
 	public abstract Boolean finalizarEntrega(Integer codigoEntrega);
+
+	@CrossOrigin
+	@RequestMapping(path = "buscarEntregasAvaliacao", method = RequestMethod.GET, produces = "application/json")
+	public abstract List<RetornoEntregaAvaliacaoDTO> buscarEntregasAvaliacao(Integer codigoUsuario);
 
 }

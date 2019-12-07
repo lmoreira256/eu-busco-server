@@ -18,4 +18,10 @@ public interface EntregaDAO extends GenericDAO<Entrega> {
 
 	public abstract List<Entrega> buscarTodasAbertas();
 
+	public abstract List<Entrega> buscarEntregasAvaliacao(Integer codigoUsuario, Integer codigoTipoUsuario);
+
+	public abstract Integer buscarCodigoCliente(Integer codigoEntrega);
+
+	public abstract Integer buscarCodigoEntregador(Integer codigoEntrega);
+
 }

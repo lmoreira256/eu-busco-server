@@ -6,6 +6,7 @@ import java.text.NumberFormat;
 public class BigDecimalUtil {
 
 	public static final BigDecimal ZERO = BigDecimal.valueOf(0.0);
+	public static final BigDecimal CINCO = BigDecimal.valueOf(5.0);
 	private static NumberFormat df = NumberFormat.getNumberInstance();
 
 	public BigDecimalUtil() {
@@ -15,10 +16,8 @@ public class BigDecimalUtil {
 	/**
 	 * Somar duas BigDecimais com validação se forem nulos
 	 * 
-	 * @param valorUm
-	 *            Primeiro parametro
-	 * @param valorDois
-	 *            Valor que será somado ao primeiro valor
+	 * @param valorUm   Primeiro parametro
+	 * @param valorDois Valor que será somado ao primeiro valor
 	 * @return
 	 */
 	public static BigDecimal somar(BigDecimal valorUm, BigDecimal valorDois) {
@@ -34,8 +33,7 @@ public class BigDecimalUtil {
 	/**
 	 * Valida se o objeto é nulo ou está vazio
 	 * 
-	 * @param valor
-	 *            Big decimal a ser validado
+	 * @param valor Big decimal a ser validado
 	 * @return
 	 */
 	public static Boolean isNullOrEmpty(BigDecimal valor) {
@@ -50,10 +48,8 @@ public class BigDecimalUtil {
 	/**
 	 * Método que subtrai dois BigDecimais
 	 * 
-	 * @param valorUm
-	 *            Primeiro valor que será passado
-	 * @param valorDois
-	 *            Valor que será subtraido do primeiro valor
+	 * @param valorUm   Primeiro valor que será passado
+	 * @param valorDois Valor que será subtraido do primeiro valor
 	 * @return
 	 */
 	public static BigDecimal subtrair(BigDecimal valorUm, BigDecimal valorDois) {
@@ -66,10 +62,8 @@ public class BigDecimalUtil {
 	/**
 	 * Método que multiplica dois BigDecimais
 	 * 
-	 * @param valorUm
-	 *            Primeiro valor que será passado
-	 * @param valorDois
-	 *            Valor que será multiplicaod pelo primeiro valor
+	 * @param valorUm   Primeiro valor que será passado
+	 * @param valorDois Valor que será multiplicaod pelo primeiro valor
 	 * @return
 	 */
 	public static BigDecimal multiplicar(BigDecimal valorUm, BigDecimal valorDois) {
@@ -82,10 +76,8 @@ public class BigDecimalUtil {
 	/**
 	 * Método que divide dois BigDecimais
 	 * 
-	 * @param valorUm
-	 *            Primeiro valor que será passado
-	 * @param valorDois
-	 *            Valor que será dividio pelo primeiro valor
+	 * @param valorUm   Primeiro valor que será passado
+	 * @param valorDois Valor que será dividio pelo primeiro valor
 	 * @return
 	 */
 
