@@ -45,7 +45,7 @@ public class AvaliacaoDAOImpl extends GenericDAOImpl<Avaliacao> implements Avali
 
 		long avaliacoes = from().where(booleanBuilder).count();
 
-		if (avaliacoes > 1) {
+		if (avaliacoes > 0) {
 			return from().where(booleanBuilder).singleResult(avaliacao.nota.sum().coalesce(5L).asNumber()
 					.divide(avaliacoes).castToNum(BigDecimal.class).coalesce(BigDecimalUtil.CINCO).as(notaUsuario));
 		} else {
