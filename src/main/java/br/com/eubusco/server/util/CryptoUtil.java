@@ -28,7 +28,6 @@ public class CryptoUtil {
 
 			cipher = Cipher.getInstance("Blowfish");
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

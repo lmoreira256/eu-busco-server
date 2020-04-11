@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
-import br.com.eubusco.server.bo.UsuarioBO;
+import br.com.eubusco.server.bo.UserBO;
 import br.com.eubusco.server.constantes.MensagemService;
 import br.com.eubusco.server.dao.AvaliacaoDAO;
 import br.com.eubusco.server.dao.ContatoDAO;
@@ -22,7 +22,7 @@ import br.com.eubusco.server.dao.UsuarioDAO;
 import br.com.eubusco.server.dto.DadosUsuarioDTO;
 import br.com.eubusco.server.dto.LoginDTO;
 import br.com.eubusco.server.dto.NovoUsuarioDTO;
-import br.com.eubusco.server.dto.RetornoLoginDTO;
+import br.com.eubusco.server.dto.ReturnLoginDTO;
 import br.com.eubusco.server.model.Contato;
 import br.com.eubusco.server.model.Documento;
 import br.com.eubusco.server.model.Endereco;
@@ -31,7 +31,7 @@ import br.com.eubusco.server.resources.Resource;
 import br.com.eubusco.server.resources.S3Service;
 
 @ManagedBean
-public class UsuarioBOImpl implements UsuarioBO {
+public class UsuarioBOImpl implements UserBO {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -57,7 +57,7 @@ public class UsuarioBOImpl implements UsuarioBO {
 	private EntregaDAO entregaDAO;
 
 	@Override
-	public RetornoLoginDTO realizarLogin(LoginDTO loginDTO) {
+	public ReturnLoginDTO login(LoginDTO loginDTO) {
 
 		if (loginDTO == null) {
 			throw Resource.getServerException(MensagemService.PARAMETRO_NULO);
@@ -69,10 +69,10 @@ public class UsuarioBOImpl implements UsuarioBO {
 			throw Resource.getServerException(MensagemService.USUARIO_NAO_CADASTRADO);
 		}
 
-		RetornoLoginDTO retornoLoginDTO = new RetornoLoginDTO(usuario.getId(),
+		ReturnLoginDTO returnLoginDTO = new ReturnLoginDTO(usuario.getId(),
 				usuario.getSenha().equals(loginDTO.getSenha()), usuario.getCodigoTipoUsuario(), usuario.getNome());
 
-		return retornoLoginDTO;
+		return returnLoginDTO;
 	}
 
 	@Override

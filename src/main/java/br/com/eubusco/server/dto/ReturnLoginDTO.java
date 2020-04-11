@@ -1,13 +1,13 @@
 package br.com.eubusco.server.dto;
 
-public class RetornoLoginDTO {
+public class ReturnLoginDTO {
 
 	private Integer idUsuario;
 	private Boolean logado;
 	private Integer tipoUsuario;
 	private String nomeUsuario;
 
-	public RetornoLoginDTO(Integer idUsuario, Boolean logado, Integer tipoUsuario, String nomeUsuario) {
+	public ReturnLoginDTO(Integer idUsuario, Boolean logado, Integer tipoUsuario, String nomeUsuario) {
 		super();
 		this.logado = logado;
 		this.tipoUsuario = tipoUsuario;
