@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.services.chime.model.UserType;
+
 import br.com.eubusco.server.bo.UserBO;
 import br.com.eubusco.server.constantes.MensagemService;
 import br.com.eubusco.server.dao.AvaliacaoDAO;
@@ -23,6 +25,7 @@ import br.com.eubusco.server.dto.DadosUsuarioDTO;
 import br.com.eubusco.server.dto.LoginDTO;
 import br.com.eubusco.server.dto.NovoUsuarioDTO;
 import br.com.eubusco.server.dto.ReturnLoginDTO;
+import br.com.eubusco.server.enumerator.UserTypeEnum;
 import br.com.eubusco.server.model.Contato;
 import br.com.eubusco.server.model.Documento;
 import br.com.eubusco.server.model.Endereco;
@@ -77,7 +80,10 @@ public class UserBOImpl implements UserBO {
 		returnLoginDTO.setUserCode(usuario.getId());
 		returnLoginDTO.setUserName(usuario.getNome());
 		returnLoginDTO.setUserType(usuario.getCodigoTipoUsuario());
-		returnLoginDTO.setSuccess(Boolean.TRUE);
+
+		if (usuario.getCodigoTipoUsuario() == UserTypeEnum.CLIENTE.toInteger()) {
+
+		}
 
 		return returnLoginDTO;
 	}

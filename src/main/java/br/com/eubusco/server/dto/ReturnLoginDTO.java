@@ -6,7 +6,6 @@ import java.util.List;
 public class ReturnLoginDTO {
 
 	private Integer userCode;
-	private Boolean success;
 	private Integer userType;
 	private String userName;
 	private BigDecimal rating;
@@ -21,7 +20,6 @@ public class ReturnLoginDTO {
 			List<DeliveryDTO> toDeliver, List<DeliveryDTO> deliveriesToUser, List<DeliveryDTO> openDeliveries) {
 		super();
 		this.userCode = userCode;
-		this.success = success;
 		this.userType = userType;
 		this.userName = userName;
 		this.rating = rating;
@@ -36,14 +34,6 @@ public class ReturnLoginDTO {
 
 	public void setUserCode(Integer userCode) {
 		this.userCode = userCode;
-	}
-
-	public Boolean getSuccess() {
-		return success;
-	}
-
-	public void setSuccess(Boolean success) {
-		this.success = success;
 	}
 
 	public Integer getUserType() {
