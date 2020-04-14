@@ -31,7 +31,7 @@ import br.com.eubusco.server.resources.Resource;
 import br.com.eubusco.server.resources.S3Service;
 
 @ManagedBean
-public class UsuarioBOImpl implements UserBO {
+public class UserBOImpl implements UserBO {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -69,8 +69,11 @@ public class UsuarioBOImpl implements UserBO {
 			throw Resource.getServerException(MensagemService.USUARIO_NAO_CADASTRADO);
 		}
 
-		ReturnLoginDTO returnLoginDTO = new ReturnLoginDTO(usuario.getId(),
-				usuario.getSenha().equals(loginDTO.getSenha()), usuario.getCodigoTipoUsuario(), usuario.getNome());
+		ReturnLoginDTO returnLoginDTO = new ReturnLoginDTO();
+		returnLoginDTO.setUserCode(usuario.getId());
+		returnLoginDTO.setUserName(usuario.getNome());
+		returnLoginDTO.setUserType(usuario.getCodigoTipoUsuario());
+		returnLoginDTO.setSuccess(Boolean.TRUE);
 
 		return returnLoginDTO;
 	}
