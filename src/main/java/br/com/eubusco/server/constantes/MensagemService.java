@@ -11,5 +11,6 @@ public class MensagemService {
 	public final static String ERRO_CONVERTER_URL_URI = "ERRO_CONVERTER_URL_URI";
 	public final static String ERRO_IO = "ERRO_IO";
 	public final static String USUARIO_NAO_CADASTRADO = "USUARIO_NAO_CADASTRADO";
+	public final static String SENHA_INVALIDA = "SENHA_INVALIDA";
 
 }

@@ -69,6 +69,10 @@ public class UserBOImpl implements UserBO {
 			throw Resource.getServerException(MensagemService.USUARIO_NAO_CADASTRADO);
 		}
 
+		if (!usuario.getSenha().equals(loginDTO.getSenha())) {
+			throw Resource.getServerException(MensagemService.SENHA_INVALIDA);
+		}
+
 		ReturnLoginDTO returnLoginDTO = new ReturnLoginDTO();
 		returnLoginDTO.setUserCode(usuario.getId());
 		returnLoginDTO.setUserName(usuario.getNome());
