@@ -18,4 +18,6 @@ public interface UserBO {
 
 	public abstract List<Usuario> buscarTodosUsuarios();
 
+	public abstract String getUserName(Integer userCode);
+
 }

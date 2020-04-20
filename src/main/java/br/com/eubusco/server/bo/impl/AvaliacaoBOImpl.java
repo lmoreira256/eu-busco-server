@@ -10,7 +10,7 @@ import br.com.eubusco.server.bo.AvaliacaoBO;
 import br.com.eubusco.server.constantes.MensagemService;
 import br.com.eubusco.server.dao.AvaliacaoDAO;
 import br.com.eubusco.server.dao.EntregaDAO;
-import br.com.eubusco.server.dao.UsuarioDAO;
+import br.com.eubusco.server.dao.UserDAO;
 import br.com.eubusco.server.model.Avaliacao;
 import br.com.eubusco.server.model.Usuario;
 import br.com.eubusco.server.resources.Resource;
@@ -24,7 +24,7 @@ public class AvaliacaoBOImpl implements AvaliacaoBO {
 	private AvaliacaoDAO avaliacaoDAO;
 
 	@Autowired
-	private UsuarioDAO usuarioDAO;
+	private UserDAO usuarioDAO;
 
 	@Autowired
 	private EntregaDAO entregaDAO;

@@ -8,11 +8,11 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
 
-import br.com.eubusco.server.dao.UsuarioDAO;
+import br.com.eubusco.server.dao.UserDAO;
 import br.com.eubusco.server.model.Usuario;
 
 @Repository
-public class UsuarioDAOImpl extends GenericDAOImpl<Usuario> implements UsuarioDAO {
+public class UserDAOImpl extends GenericDAOImpl<Usuario> implements UserDAO {
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -29,8 +29,8 @@ public class UsuarioDAOImpl extends GenericDAOImpl<Usuario> implements UsuarioDA
 	}
 
 	@Override
-	public String buscarNomePorId(Integer idUsuario) {
-		return from().where(usuario.id.eq(idUsuario)).uniqueResult(usuario.nome);
+	public String getNameFromUser(Integer userCode) {
+		return from().where(usuario.id.eq(userCode)).uniqueResult(usuario.nome);
 	}
 
 }

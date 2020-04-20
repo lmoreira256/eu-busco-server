@@ -11,8 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.amazonaws.services.chime.model.UserType;
-
+import br.com.eubusco.server.bo.DeliveryBO;
 import br.com.eubusco.server.bo.UserBO;
 import br.com.eubusco.server.constantes.MensagemService;
 import br.com.eubusco.server.dao.AvaliacaoDAO;
@@ -20,7 +19,7 @@ import br.com.eubusco.server.dao.ContatoDAO;
 import br.com.eubusco.server.dao.DocumentoDAO;
 import br.com.eubusco.server.dao.EnderecoDAO;
 import br.com.eubusco.server.dao.EntregaDAO;
-import br.com.eubusco.server.dao.UsuarioDAO;
+import br.com.eubusco.server.dao.UserDAO;
 import br.com.eubusco.server.dto.DadosUsuarioDTO;
 import br.com.eubusco.server.dto.LoginDTO;
 import br.com.eubusco.server.dto.NovoUsuarioDTO;
@@ -39,7 +38,7 @@ public class UserBOImpl implements UserBO {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
-	private UsuarioDAO usuarioDAO;
+	private UserDAO userDAO;
 
 	@Autowired
 	private DocumentoDAO documentoDAO;
@@ -59,6 +58,9 @@ public class UserBOImpl implements UserBO {
 	@Autowired
 	private EntregaDAO entregaDAO;
 
+	@Autowired
+	private DeliveryBO deliveryBO;
+
 	@Override
 	public ReturnLoginDTO login(LoginDTO loginDTO) {
 
@@ -66,23 +68,24 @@ public class UserBOImpl implements UserBO {
 			throw Resource.getServerException(MensagemService.PARAMETRO_NULO);
 		}
 
-		Usuario usuario = usuarioDAO.buscarPorLogin(loginDTO.getLogin());
+		Usuario user = userDAO.buscarPorLogin(loginDTO.getLogin());
 
-		if (usuario == null) {
+		if (user == null) {
 			throw Resource.getServerException(MensagemService.USUARIO_NAO_CADASTRADO);
 		}
 
-		if (!usuario.getSenha().equals(loginDTO.getSenha())) {
+		if (!user.getSenha().equals(loginDTO.getSenha())) {
 			throw Resource.getServerException(MensagemService.SENHA_INVALIDA);
 		}
 
 		ReturnLoginDTO returnLoginDTO = new ReturnLoginDTO();
-		returnLoginDTO.setUserCode(usuario.getId());
-		returnLoginDTO.setUserName(usuario.getNome());
-		returnLoginDTO.setUserType(usuario.getCodigoTipoUsuario());
+		returnLoginDTO.setUserCode(user.getId());
+		returnLoginDTO.setUserName(user.getNome());
+		returnLoginDTO.setUserType(user.getCodigoTipoUsuario());
 
-		if (usuario.getCodigoTipoUsuario() == UserTypeEnum.CLIENTE.toInteger()) {
-
+		if (user.getCodigoTipoUsuario() == UserTypeEnum.CLIENTE.toInteger()
+				|| user.getCodigoTipoUsuario() == UserTypeEnum.ADMIN.toInteger()) {
+			returnLoginDTO.setDeliveriesToUser(deliveryBO.getUserDeliveries(user.getId()));
 		}
 
 		return returnLoginDTO;
@@ -96,7 +99,7 @@ public class UserBOImpl implements UserBO {
 			throw Resource.getServerException(MensagemService.PARAMETRO_NULO);
 		}
 
-		Usuario usuario = usuarioDAO.buscarPorLogin(novoUsuarioDTO.getLoginUsuario());
+		Usuario usuario = userDAO.buscarPorLogin(novoUsuarioDTO.getLoginUsuario());
 
 		if (usuario != null) {
 			throw Resource.getServerException(MensagemService.USUARIO_CADASTRADO);
@@ -106,7 +109,7 @@ public class UserBOImpl implements UserBO {
 				novoUsuarioDTO.getNomeUsuario(), novoUsuarioDTO.getSenhaUsuario(), null,
 				novoUsuarioDTO.getDataNascimento(), new Date(), new Date(), null);
 
-		usuario = usuarioDAO.salvar(novoUsuario);
+		usuario = userDAO.salvar(novoUsuario);
 
 		if (novoUsuarioDTO.getDocumentosUsuario() != null) {
 			this.salvarDocumentosUsuario(usuario.getId(), novoUsuarioDTO.getDocumentosUsuario());
@@ -163,7 +166,7 @@ public class UserBOImpl implements UserBO {
 			throw Resource.getServerException(MensagemService.PARAMETRO_NULO);
 		}
 
-		Usuario usuario = usuarioDAO.buscarPorId(codigoUsuario);
+		Usuario usuario = userDAO.buscarPorId(codigoUsuario);
 
 		DadosUsuarioDTO dadosUsuarioDTO = new DadosUsuarioDTO();
 		dadosUsuarioDTO.setNota(avaliacaoDAO.adiquirirNotaUsuario(codigoUsuario, usuario.getCodigoTipoUsuario()));
@@ -177,7 +180,12 @@ public class UserBOImpl implements UserBO {
 	public List<Usuario> buscarTodosUsuarios() {
 		logger.info("==> Executando o método buscarTodosUsuarios.");
 
-		return usuarioDAO.buscarTodos();
+		return userDAO.buscarTodos();
+	}
+
+	@Override
+	public String getUserName(Integer userCode) {
+		return userDAO.getNameFromUser(userCode);
 	}
 
 }

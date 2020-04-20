@@ -15,7 +15,7 @@ import br.com.eubusco.server.constantes.MensagemService;
 import br.com.eubusco.server.dao.ContatoDAO;
 import br.com.eubusco.server.dao.EnderecoDAO;
 import br.com.eubusco.server.dao.EntregaDAO;
-import br.com.eubusco.server.dao.UsuarioDAO;
+import br.com.eubusco.server.dao.UserDAO;
 import br.com.eubusco.server.dto.ParametroPegarEntregaDTO;
 import br.com.eubusco.server.dto.RetornoEntregaAvaliacaoDTO;
 import br.com.eubusco.server.dto.RetornoEntregasDisponiveisDTO;
@@ -35,7 +35,7 @@ public class EntregaBOImpl implements EntregaBO {
 	private EnderecoDAO enderecoDAO;
 
 	@Autowired
-	private UsuarioDAO usuarioDAO;
+	private UserDAO userDAO;
 
 	@Autowired
 	private ContatoDAO contatoDAO;
@@ -98,7 +98,7 @@ public class EntregaBOImpl implements EntregaBO {
 				entrega.setDescricaoEntrega(x.getDescricao());
 				entrega.setEnderecoColeta(enderecoDAO.buscarPorId(x.getCodigoEnderecoColeta()));
 				entrega.setEnderecoEntrega(enderecoDAO.buscarPorId(x.getCodigoEnderecoEntrega()));
-				entrega.setNomeCliente(usuarioDAO.buscarNomePorId(x.getCodigoCliente()));
+				entrega.setNomeCliente(userDAO.getNameFromUser(x.getCodigoCliente()));
 				entrega.setTituloEntrega(x.getTitulo());
 				entrega.setVolumeEntrega(x.getVolume());
 				entrega.setContatosCliente(contatoDAO.adquirirPorUsuario(x.getCodigoCliente()));
@@ -187,7 +187,7 @@ public class EntregaBOImpl implements EntregaBO {
 	public List<RetornoEntregaAvaliacaoDTO> buscarEntregasAvaliacao(Integer codigoUsuario) {
 		logger.info("==> Executando o método buscarEntregasAvaliacao.");
 
-		Usuario usuario = usuarioDAO.buscarPorId(codigoUsuario);
+		Usuario usuario = userDAO.buscarPorId(codigoUsuario);
 		List<Entrega> entregas = entregaDAO.buscarEntregasAvaliacao(codigoUsuario, usuario.getCodigoTipoUsuario());
 
 		List<RetornoEntregaAvaliacaoDTO> retorno = new ArrayList<RetornoEntregaAvaliacaoDTO>();
@@ -199,9 +199,9 @@ public class EntregaBOImpl implements EntregaBO {
 			retornoEntregaAvaliacaoDTO.setTituloEntrega(x.getTitulo());
 
 			if (usuario.getCodigoTipoUsuario() == 2) {
-				retornoEntregaAvaliacaoDTO.setNomeAvaliado(usuarioDAO.buscarNomePorId(x.getCodigoEntregador()));
+				retornoEntregaAvaliacaoDTO.setNomeAvaliado(userDAO.getNameFromUser(x.getCodigoEntregador()));
 			} else {
-				retornoEntregaAvaliacaoDTO.setNomeAvaliado(usuarioDAO.buscarNomePorId(x.getCodigoCliente()));
+				retornoEntregaAvaliacaoDTO.setNomeAvaliado(userDAO.getNameFromUser(x.getCodigoCliente()));
 			}
 
 			retorno.add(retornoEntregaAvaliacaoDTO);

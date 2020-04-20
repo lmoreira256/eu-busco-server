@@ -6,6 +6,6 @@ import br.com.eubusco.server.dto.DeliveryDTO;
 
 public interface DeliveryBO {
 
-	public abstract List<DeliveryDTO> fetchUserDeliveries(Integer userCode);
+	public abstract List<DeliveryDTO> getUserDeliveries(Integer userCode);
 
 }

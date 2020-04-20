@@ -1,6 +1,6 @@
 package br.com.eubusco.server.dao.impl;
 
-import static br.com.eubusco.server.model.QEntrega.entrega;
+import static br.com.eubusco.server.model.QContato.contato;
 
 import java.util.List;
 
@@ -10,11 +10,11 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
 
-import br.com.eubusco.server.dao.DeliveryDAO;
-import br.com.eubusco.server.model.Entrega;
+import br.com.eubusco.server.dao.ContactDAO;
+import br.com.eubusco.server.model.Contato;
 
 @Repository
-public class DeliveryDAOImpl extends GenericDAOImpl<Entrega> implements DeliveryDAO {
+public class ContactDAOImpl extends GenericDAOImpl<Contato> implements ContactDAO {
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -26,9 +26,8 @@ public class DeliveryDAOImpl extends GenericDAOImpl<Entrega> implements Delivery
 	}
 
 	@Override
-	public List<Entrega> getUserDeliveries(Integer userCode) {
-		return from().where(entrega.codigoCliente.eq(userCode).and(entrega.flagFinalizada.eq(Boolean.FALSE)))
-				.list(entrega);
+	public List<Contato> getFromUser(Integer userCode) {
+		return from().where(contato.codigoUsuario.eq(userCode)).list(contato);
 	}
 
 }
