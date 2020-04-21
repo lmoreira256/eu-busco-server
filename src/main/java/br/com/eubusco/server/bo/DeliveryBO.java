@@ -1,11 +1,9 @@
 package br.com.eubusco.server.bo;
 
-import java.util.List;
-
-import br.com.eubusco.server.dto.DeliveryDTO;
+import br.com.eubusco.server.dto.PaginationDTO;
 
 public interface DeliveryBO {
 
-	public abstract List<DeliveryDTO> getUserDeliveries(Integer userCode);
+	public abstract PaginationDTO getUserDeliveries(Integer userCode, Integer page);
 
 }

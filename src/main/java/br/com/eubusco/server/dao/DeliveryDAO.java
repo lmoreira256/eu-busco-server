@@ -6,6 +6,8 @@ import br.com.eubusco.server.model.Entrega;
 
 public interface DeliveryDAO extends GenericDAO<Entrega> {
 
-	public abstract List<Entrega> getUserDeliveries(Integer userCode);
+	public abstract List<Entrega> getUserDeliveries(Integer userCode, Integer page);
+
+	public abstract Long getCountUserDeliveries(Integer userCode);
 
 }

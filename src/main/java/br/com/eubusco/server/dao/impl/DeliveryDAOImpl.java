@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import br.com.eubusco.server.dao.DeliveryDAO;
 import br.com.eubusco.server.model.Entrega;
+import br.com.eubusco.server.util.LongUtil;
 
 @Repository
 public class DeliveryDAOImpl extends GenericDAOImpl<Entrega> implements DeliveryDAO {
@@ -26,9 +27,14 @@ public class DeliveryDAOImpl extends GenericDAOImpl<Entrega> implements Delivery
 	}
 
 	@Override
-	public List<Entrega> getUserDeliveries(Integer userCode) {
+	public List<Entrega> getUserDeliveries(Integer userCode, Integer page) {
 		return from().where(entrega.codigoCliente.eq(userCode).and(entrega.flagFinalizada.eq(Boolean.FALSE)))
-				.list(entrega);
+				.limit(LongUtil.QUATRO).offset((page - 1) * 4).list(entrega);
+	}
+
+	@Override
+	public Long getCountUserDeliveries(Integer userCode) {
+		return from().where(entrega.codigoCliente.eq(userCode).and(entrega.flagFinalizada.eq(Boolean.FALSE))).count();
 	}
 
 }

@@ -85,7 +85,7 @@ public class UserBOImpl implements UserBO {
 
 		if (user.getCodigoTipoUsuario() == UserTypeEnum.CLIENTE.toInteger()
 				|| user.getCodigoTipoUsuario() == UserTypeEnum.ADMIN.toInteger()) {
-			returnLoginDTO.setDeliveriesToUser(deliveryBO.getUserDeliveries(user.getId()));
+			returnLoginDTO.setDeliveriesToUser(deliveryBO.getUserDeliveries(user.getId(), 1));
 		}
 
 		return returnLoginDTO;

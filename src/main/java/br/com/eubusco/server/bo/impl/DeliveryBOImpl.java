@@ -16,6 +16,7 @@ import br.com.eubusco.server.bo.UserBO;
 import br.com.eubusco.server.constantes.MensagemService;
 import br.com.eubusco.server.dao.DeliveryDAO;
 import br.com.eubusco.server.dto.DeliveryDTO;
+import br.com.eubusco.server.dto.PaginationDTO;
 import br.com.eubusco.server.model.Entrega;
 import br.com.eubusco.server.resources.Resource;
 
@@ -37,14 +38,14 @@ public class DeliveryBOImpl implements DeliveryBO {
 	private ContactBO contactBO;
 
 	@Override
-	public List<DeliveryDTO> getUserDeliveries(Integer userCode) {
-		logger.info("==> Executando o método fetchUserDeliveries.");
+	public PaginationDTO getUserDeliveries(Integer userCode, Integer page) {
+		logger.info("==> Executando o método getUserDeliveries.");
 
 		if (userCode == null) {
 			throw Resource.getServerException(MensagemService.PARAMETRO_NULO);
 		}
 
-		List<Entrega> deliveryList = deliveryDAO.getUserDeliveries(userCode);
+		List<Entrega> deliveryList = deliveryDAO.getUserDeliveries(userCode, page);
 
 		List<DeliveryDTO> deliveryDTOList = new ArrayList<>();
 
@@ -65,7 +66,11 @@ public class DeliveryBOImpl implements DeliveryBO {
 			deliveryDTOList.add(deliveryDTO);
 		});
 
-		return deliveryDTOList;
+		PaginationDTO paginationDTO = new PaginationDTO();
+		paginationDTO.setList(deliveryDTOList);
+		paginationDTO.setCount(deliveryDAO.getCountUserDeliveries(userCode));
+
+		return paginationDTO;
 	}
 
 }

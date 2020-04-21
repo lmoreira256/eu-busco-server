@@ -1,7 +1,6 @@
 package br.com.eubusco.server.dto;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 public class ReturnLoginDTO {
 
@@ -9,15 +8,15 @@ public class ReturnLoginDTO {
 	private Integer userType;
 	private String userName;
 	private BigDecimal rating;
-	private List<DeliveryDTO> toDeliver;
-	private List<DeliveryDTO> deliveriesToUser;
-	private List<DeliveryDTO> openDeliveries;
+	private PaginationDTO toDeliver;
+	private PaginationDTO deliveriesToUser;
+	private PaginationDTO openDeliveries;
 
 	public ReturnLoginDTO() {
 	}
 
 	public ReturnLoginDTO(Integer userCode, Boolean success, Integer userType, String userName, BigDecimal rating,
-			List<DeliveryDTO> toDeliver, List<DeliveryDTO> deliveriesToUser, List<DeliveryDTO> openDeliveries) {
+			PaginationDTO toDeliver, PaginationDTO deliveriesToUser, PaginationDTO openDeliveries) {
 		super();
 		this.userCode = userCode;
 		this.userType = userType;
@@ -60,27 +59,27 @@ public class ReturnLoginDTO {
 		this.rating = rating;
 	}
 
-	public List<DeliveryDTO> getToDeliver() {
+	public PaginationDTO getToDeliver() {
 		return toDeliver;
 	}
 
-	public void setToDeliver(List<DeliveryDTO> toDeliver) {
+	public void setToDeliver(PaginationDTO toDeliver) {
 		this.toDeliver = toDeliver;
 	}
 
-	public List<DeliveryDTO> getDeliveriesToUser() {
+	public PaginationDTO getDeliveriesToUser() {
 		return deliveriesToUser;
 	}
 
-	public void setDeliveriesToUser(List<DeliveryDTO> deliveriesToUser) {
+	public void setDeliveriesToUser(PaginationDTO deliveriesToUser) {
 		this.deliveriesToUser = deliveriesToUser;
 	}
 
-	public List<DeliveryDTO> getOpenDeliveries() {
+	public PaginationDTO getOpenDeliveries() {
 		return openDeliveries;
 	}
 
-	public void setOpenDeliveries(List<DeliveryDTO> openDeliveries) {
+	public void setOpenDeliveries(PaginationDTO openDeliveries) {
 		this.openDeliveries = openDeliveries;
 	}
 
