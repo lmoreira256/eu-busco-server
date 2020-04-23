@@ -8,10 +8,6 @@ public class RetornoEfetuarLoginDTO {
 	private String nomeUsuario;
 	private Integer tipoUsuario;
 	private BigDecimal nota;
-	private PaginacaoDTO entregasUsuarioAbertas;
-	private PaginacaoDTO entregasUsuarioAndamento;
-	private PaginacaoDTO entregasAbertas;
-	private PaginacaoDTO entregasFinalizadas;
 
 	public RetornoEfetuarLoginDTO() {
 	}
@@ -24,10 +20,6 @@ public class RetornoEfetuarLoginDTO {
 		this.nomeUsuario = nomeUsuario;
 		this.tipoUsuario = tipoUsuario;
 		this.nota = nota;
-		this.entregasUsuarioAbertas = entregasUsuarioAbertas;
-		this.entregasUsuarioAndamento = entregasUsuarioAndamento;
-		this.entregasAbertas = entregasAbertas;
-		this.entregasFinalizadas = entregasFinalizadas;
 	}
 
 	public Integer getCodigoUsuario() {
@@ -60,38 +52,6 @@ public class RetornoEfetuarLoginDTO {
 
 	public void setNota(BigDecimal nota) {
 		this.nota = nota;
-	}
-
-	public PaginacaoDTO getEntregasUsuarioAbertas() {
-		return entregasUsuarioAbertas;
-	}
-
-	public void setEntregasUsuarioAbertas(PaginacaoDTO entregasUsuarioAbertas) {
-		this.entregasUsuarioAbertas = entregasUsuarioAbertas;
-	}
-
-	public PaginacaoDTO getEntregasUsuarioAndamento() {
-		return entregasUsuarioAndamento;
-	}
-
-	public void setEntregasUsuarioAndamento(PaginacaoDTO entregasUsuarioAndamento) {
-		this.entregasUsuarioAndamento = entregasUsuarioAndamento;
-	}
-
-	public PaginacaoDTO getEntregasAbertas() {
-		return entregasAbertas;
-	}
-
-	public void setEntregasAbertas(PaginacaoDTO entregasAbertas) {
-		this.entregasAbertas = entregasAbertas;
-	}
-
-	public PaginacaoDTO getEntregasFinalizadas() {
-		return entregasFinalizadas;
-	}
-
-	public void setEntregasFinalizadas(PaginacaoDTO entregasFinalizadas) {
-		this.entregasFinalizadas = entregasFinalizadas;
 	}
 
 }

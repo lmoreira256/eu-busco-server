@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.eubusco.server.bo.AvaliacaoBO;
-import br.com.eubusco.server.bo.EntregaBO;
 import br.com.eubusco.server.bo.UsuarioBO;
 import br.com.eubusco.server.constantes.MensagemService;
 import br.com.eubusco.server.dao.ContatoDAO;
@@ -39,9 +38,6 @@ public class UsuarioBOImpl implements UsuarioBO {
 
 	@Autowired
 	private AvaliacaoBO avaliacaoBO;
-
-	@Autowired
-	private EntregaBO entregaBO;
 
 	@Autowired
 	private DocumentoDAO documentoDAO;
@@ -78,32 +74,6 @@ public class UsuarioBOImpl implements UsuarioBO {
 		retornoEfetuarLoginDTO.setNomeUsuario(usuario.getNome());
 		retornoEfetuarLoginDTO.setTipoUsuario(usuario.getCodigoTipoUsuario());
 		retornoEfetuarLoginDTO.setNota(avaliacaoBO.buscarNotaUsuario(usuario.getId(), usuario.getCodigoTipoUsuario()));
-
-		switch (usuario.getCodigoTipoUsuario()) {
-		case 2:
-			retornoEfetuarLoginDTO
-					.setEntregasUsuarioAbertas(entregaBO.buscarEntregasUsuarioAbertas(usuario.getId(), 1));
-			retornoEfetuarLoginDTO
-					.setEntregasUsuarioAndamento(entregaBO.buscarEntregasUsuarioAndamento(usuario.getId(), 1));
-			retornoEfetuarLoginDTO.setEntregasFinalizadas(entregaBO.buscarEntregasFinalizadas(usuario.getId(), 1));
-			break;
-
-		case 3:
-			retornoEfetuarLoginDTO.setEntregasAbertas(entregaBO.buscarEntregasAbertas(usuario.getId(), 1));
-			retornoEfetuarLoginDTO
-					.setEntregasUsuarioAndamento(entregaBO.buscarEntregasParaEntregar(usuario.getId(), 1));
-			retornoEfetuarLoginDTO.setEntregasFinalizadas(entregaBO.buscarEntregasEntregues(usuario.getId(), 1));
-			break;
-
-		default:
-			retornoEfetuarLoginDTO
-					.setEntregasUsuarioAbertas(entregaBO.buscarEntregasUsuarioAbertas(usuario.getId(), 1));
-			retornoEfetuarLoginDTO
-					.setEntregasUsuarioAndamento(entregaBO.buscarEntregasAdminAndamento(usuario.getId(), 1));
-			retornoEfetuarLoginDTO.setEntregasAbertas(entregaBO.buscarEntregasAbertas(usuario.getId(), 1));
-			retornoEfetuarLoginDTO.setEntregasFinalizadas(entregaBO.buscarEntregasFinalizadasAdmin(usuario.getId(), 1));
-			break;
-		}
 
 		return retornoEfetuarLoginDTO;
 	}
