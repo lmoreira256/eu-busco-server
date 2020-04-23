@@ -346,4 +346,256 @@ public class EntregaDAOImpl extends GenericDAOImpl<Entrega> implements EntregaDA
 		return query().from(entrega).where(where).count();
 	}
 
+	@Override
+	public List<EntregaDTO> buscarEntregasEntregues(Integer codigoUsuario, Integer pagina) {
+		NumberPath<Integer> codigo = new NumberPath<>(Integer.class, "codigo");
+		StringPath titulo = new StringPath("titulo");
+		StringPath descricao = new StringPath("descricao");
+		StringPath nomeCliente = new StringPath("nomeCliente");
+		StringPath nomeEntregador = new StringPath("nomeEntregador");
+		StringPath cidadeEntrega = new StringPath("cidadeEntrega");
+		StringPath cidadeColeta = new StringPath("cidadeColeta");
+		StringPath volume = new StringPath("volume");
+		StringPath dataColeta = new StringPath("dataColeta");
+		StringPath dataEntrega = new StringPath("dataEntrega");
+
+		JPAQuery query = query().from(entrega);
+
+		QUsuario qUsuarioCliente = new QUsuario("qUsuarioCliente");
+		QUsuario qUsuarioEntregador = new QUsuario("qUsuarioEntregador");
+		QEndereco qEnderecoColeta = new QEndereco("qEnderecoColeta");
+		QCidade qCidadeColeta = new QCidade("cidadeColeta");
+		QEndereco qEnderecoEntrega = new QEndereco("qEnderecoEntrega");
+		QCidade qCidadeEntrega = new QCidade("qCidadeEntrega");
+
+		query.innerJoin(qUsuarioCliente).on(qUsuarioCliente.id.eq(entrega.codigoCliente));
+		query.innerJoin(qUsuarioEntregador).on(qUsuarioEntregador.id.eq(entrega.codigoEntregador));
+		query.innerJoin(qEnderecoColeta).on(entrega.codigoEnderecoColeta.eq(qEnderecoColeta.id));
+		query.innerJoin(qCidadeColeta).on(qEnderecoColeta.codigoCidade.eq(qCidadeColeta.id));
+		query.innerJoin(qEnderecoEntrega).on(entrega.codigoEnderecoColeta.eq(qEnderecoEntrega.id));
+		query.innerJoin(qCidadeEntrega).on(qEnderecoColeta.codigoCidade.eq(qCidadeEntrega.id));
+
+		BooleanBuilder where = new BooleanBuilder();
+		where.and(entrega.codigoCliente.ne(codigoUsuario));
+		where.and(entrega.codigoEntregador.eq(codigoUsuario));
+		where.and(entrega.flagFinalizada.eq(Boolean.TRUE));
+
+		query.where(where);
+
+		query.limit(LongUtil.QUATRO);
+		query.offset((pagina - 1) * 4);
+
+		List<Expression<?>> projections = new ArrayList<>();
+		projections.add(entrega.id.as(codigo));
+		projections.add(entrega.titulo.as(titulo));
+		projections.add(entrega.descricao.as(descricao));
+		projections.add(entrega.volume.as(volume));
+		projections.add(QueryDslUtil.dataString(entrega.dataColeta, DateUtil.FORMATO_DD_MM_YYYY).as(dataColeta));
+		projections.add(QueryDslUtil.dataString(entrega.dataPrazoEntrega, DateUtil.FORMATO_DD_MM_YYYY).as(dataEntrega));
+		projections.add(qUsuarioCliente.nome.as(nomeCliente));
+		projections.add(qUsuarioEntregador.nome.as(nomeEntregador));
+		projections.add(qCidadeColeta.descricao.as(cidadeColeta));
+		projections.add(qCidadeEntrega.descricao.as(cidadeEntrega));
+
+		return query.list(Projections.fields(EntregaDTO.class, ListUtil.from(projections).toArray(Expression.class)));
+	}
+
+	@Override
+	public Long buscarTotalEntregasEntregues(Integer codigoUsuario) {
+		BooleanBuilder where = new BooleanBuilder();
+		where.and(entrega.codigoCliente.ne(codigoUsuario));
+		where.and(entrega.codigoEntregador.eq(codigoUsuario));
+		where.and(entrega.flagFinalizada.eq(Boolean.TRUE));
+
+		return query().from(entrega).where(where).count();
+	}
+
+	@Override
+	public List<EntregaDTO> buscarEntregasFinalizadas(Integer codigoUsuario, Integer pagina) {
+		NumberPath<Integer> codigo = new NumberPath<>(Integer.class, "codigo");
+		StringPath titulo = new StringPath("titulo");
+		StringPath descricao = new StringPath("descricao");
+		StringPath nomeCliente = new StringPath("nomeCliente");
+		StringPath nomeEntregador = new StringPath("nomeEntregador");
+		StringPath cidadeEntrega = new StringPath("cidadeEntrega");
+		StringPath cidadeColeta = new StringPath("cidadeColeta");
+		StringPath volume = new StringPath("volume");
+		StringPath dataColeta = new StringPath("dataColeta");
+		StringPath dataEntrega = new StringPath("dataEntrega");
+
+		JPAQuery query = query().from(entrega);
+
+		QUsuario qUsuarioCliente = new QUsuario("qUsuarioCliente");
+		QUsuario qUsuarioEntregador = new QUsuario("qUsuarioEntregador");
+		QEndereco qEnderecoColeta = new QEndereco("qEnderecoColeta");
+		QCidade qCidadeColeta = new QCidade("cidadeColeta");
+		QEndereco qEnderecoEntrega = new QEndereco("qEnderecoEntrega");
+		QCidade qCidadeEntrega = new QCidade("qCidadeEntrega");
+
+		query.innerJoin(qUsuarioCliente).on(qUsuarioCliente.id.eq(entrega.codigoCliente));
+		query.innerJoin(qUsuarioEntregador).on(qUsuarioEntregador.id.eq(entrega.codigoEntregador));
+		query.innerJoin(qEnderecoColeta).on(entrega.codigoEnderecoColeta.eq(qEnderecoColeta.id));
+		query.innerJoin(qCidadeColeta).on(qEnderecoColeta.codigoCidade.eq(qCidadeColeta.id));
+		query.innerJoin(qEnderecoEntrega).on(entrega.codigoEnderecoColeta.eq(qEnderecoEntrega.id));
+		query.innerJoin(qCidadeEntrega).on(qEnderecoColeta.codigoCidade.eq(qCidadeEntrega.id));
+
+		BooleanBuilder where = new BooleanBuilder();
+		where.and(entrega.codigoCliente.eq(codigoUsuario));
+		where.and(entrega.codigoEntregador.ne(codigoUsuario));
+		where.and(entrega.flagFinalizada.eq(Boolean.TRUE));
+
+		query.where(where);
+
+		query.limit(LongUtil.QUATRO);
+		query.offset((pagina - 1) * 4);
+
+		List<Expression<?>> projections = new ArrayList<>();
+		projections.add(entrega.id.as(codigo));
+		projections.add(entrega.titulo.as(titulo));
+		projections.add(entrega.descricao.as(descricao));
+		projections.add(entrega.volume.as(volume));
+		projections.add(QueryDslUtil.dataString(entrega.dataColeta, DateUtil.FORMATO_DD_MM_YYYY).as(dataColeta));
+		projections.add(QueryDslUtil.dataString(entrega.dataPrazoEntrega, DateUtil.FORMATO_DD_MM_YYYY).as(dataEntrega));
+		projections.add(qUsuarioCliente.nome.as(nomeCliente));
+		projections.add(qUsuarioEntregador.nome.as(nomeEntregador));
+		projections.add(qCidadeColeta.descricao.as(cidadeColeta));
+		projections.add(qCidadeEntrega.descricao.as(cidadeEntrega));
+
+		return query.list(Projections.fields(EntregaDTO.class, ListUtil.from(projections).toArray(Expression.class)));
+	}
+
+	@Override
+	public Long buscarTotalEntregasFinalizadas(Integer codigoUsuario) {
+		BooleanBuilder where = new BooleanBuilder();
+		where.and(entrega.codigoCliente.eq(codigoUsuario));
+		where.and(entrega.codigoEntregador.ne(codigoUsuario));
+		where.and(entrega.flagFinalizada.eq(Boolean.TRUE));
+
+		return query().from(entrega).where(where).count();
+	}
+
+	@Override
+	public List<EntregaDTO> buscarEntregasFinalizadasAdmin(Integer codigoUsuario, Integer pagina) {
+		NumberPath<Integer> codigo = new NumberPath<>(Integer.class, "codigo");
+		StringPath titulo = new StringPath("titulo");
+		StringPath descricao = new StringPath("descricao");
+		StringPath nomeCliente = new StringPath("nomeCliente");
+		StringPath nomeEntregador = new StringPath("nomeEntregador");
+		StringPath cidadeEntrega = new StringPath("cidadeEntrega");
+		StringPath cidadeColeta = new StringPath("cidadeColeta");
+		StringPath volume = new StringPath("volume");
+		StringPath dataColeta = new StringPath("dataColeta");
+		StringPath dataEntrega = new StringPath("dataEntrega");
+
+		JPAQuery query = query().from(entrega);
+
+		QUsuario qUsuarioCliente = new QUsuario("qUsuarioCliente");
+		QUsuario qUsuarioEntregador = new QUsuario("qUsuarioEntregador");
+		QEndereco qEnderecoColeta = new QEndereco("qEnderecoColeta");
+		QCidade qCidadeColeta = new QCidade("cidadeColeta");
+		QEndereco qEnderecoEntrega = new QEndereco("qEnderecoEntrega");
+		QCidade qCidadeEntrega = new QCidade("qCidadeEntrega");
+
+		query.innerJoin(qUsuarioCliente).on(qUsuarioCliente.id.eq(entrega.codigoCliente));
+		query.innerJoin(qUsuarioEntregador).on(qUsuarioEntregador.id.eq(entrega.codigoEntregador));
+		query.innerJoin(qEnderecoColeta).on(entrega.codigoEnderecoColeta.eq(qEnderecoColeta.id));
+		query.innerJoin(qCidadeColeta).on(qEnderecoColeta.codigoCidade.eq(qCidadeColeta.id));
+		query.innerJoin(qEnderecoEntrega).on(entrega.codigoEnderecoColeta.eq(qEnderecoEntrega.id));
+		query.innerJoin(qCidadeEntrega).on(qEnderecoColeta.codigoCidade.eq(qCidadeEntrega.id));
+
+		BooleanBuilder where = new BooleanBuilder();
+		where.and(entrega.codigoCliente.eq(codigoUsuario).or(entrega.codigoEntregador.eq(codigoUsuario)));
+		where.and(entrega.flagFinalizada.eq(Boolean.TRUE));
+
+		query.where(where);
+
+		query.limit(LongUtil.QUATRO);
+		query.offset((pagina - 1) * 4);
+
+		List<Expression<?>> projections = new ArrayList<>();
+		projections.add(entrega.id.as(codigo));
+		projections.add(entrega.titulo.as(titulo));
+		projections.add(entrega.descricao.as(descricao));
+		projections.add(entrega.volume.as(volume));
+		projections.add(QueryDslUtil.dataString(entrega.dataColeta, DateUtil.FORMATO_DD_MM_YYYY).as(dataColeta));
+		projections.add(QueryDslUtil.dataString(entrega.dataPrazoEntrega, DateUtil.FORMATO_DD_MM_YYYY).as(dataEntrega));
+		projections.add(qUsuarioCliente.nome.as(nomeCliente));
+		projections.add(qUsuarioEntregador.nome.as(nomeEntregador));
+		projections.add(qCidadeColeta.descricao.as(cidadeColeta));
+		projections.add(qCidadeEntrega.descricao.as(cidadeEntrega));
+
+		return query.list(Projections.fields(EntregaDTO.class, ListUtil.from(projections).toArray(Expression.class)));
+	}
+
+	@Override
+	public Long buscarTotalEntregasFinalizadasAdmin(Integer codigoUsuario) {
+		BooleanBuilder where = new BooleanBuilder();
+		where.and(entrega.codigoCliente.eq(codigoUsuario).or(entrega.codigoEntregador.eq(codigoUsuario)));
+		where.and(entrega.flagFinalizada.eq(Boolean.TRUE));
+
+		return query().from(entrega).where(where).count();
+	}
+
+	@Override
+	public List<EntregaDTO> buscarEntregasAdminAndamento(Integer codigoUsuario, Integer pagina) {
+		NumberPath<Integer> codigo = new NumberPath<>(Integer.class, "codigo");
+		StringPath titulo = new StringPath("titulo");
+		StringPath descricao = new StringPath("descricao");
+		StringPath nomeCliente = new StringPath("nomeCliente");
+		StringPath nomeEntregador = new StringPath("nomeEntregador");
+		StringPath cidadeEntrega = new StringPath("cidadeEntrega");
+		StringPath cidadeColeta = new StringPath("cidadeColeta");
+		StringPath volume = new StringPath("volume");
+		StringPath dataColeta = new StringPath("dataColeta");
+		StringPath dataEntrega = new StringPath("dataEntrega");
+
+		JPAQuery query = query().from(entrega);
+
+		QUsuario qUsuarioCliente = new QUsuario("qUsuarioCliente");
+		QUsuario qUsuarioEntregador = new QUsuario("qUsuarioEntregador");
+		QEndereco qEnderecoColeta = new QEndereco("qEnderecoColeta");
+		QCidade qCidadeColeta = new QCidade("cidadeColeta");
+		QEndereco qEnderecoEntrega = new QEndereco("qEnderecoEntrega");
+		QCidade qCidadeEntrega = new QCidade("qCidadeEntrega");
+
+		query.innerJoin(qUsuarioCliente).on(qUsuarioCliente.id.eq(entrega.codigoCliente));
+		query.innerJoin(qUsuarioEntregador).on(qUsuarioEntregador.id.eq(entrega.codigoEntregador));
+		query.innerJoin(qEnderecoColeta).on(entrega.codigoEnderecoColeta.eq(qEnderecoColeta.id));
+		query.innerJoin(qCidadeColeta).on(qEnderecoColeta.codigoCidade.eq(qCidadeColeta.id));
+		query.innerJoin(qEnderecoEntrega).on(entrega.codigoEnderecoColeta.eq(qEnderecoEntrega.id));
+		query.innerJoin(qCidadeEntrega).on(qEnderecoColeta.codigoCidade.eq(qCidadeEntrega.id));
+
+		BooleanBuilder where = new BooleanBuilder();
+		where.and(entrega.codigoCliente.eq(codigoUsuario).or(entrega.codigoEntregador.eq(codigoUsuario)));
+		where.and(entrega.flagFinalizada.eq(Boolean.FALSE));
+
+		query.where(where);
+
+		query.limit(LongUtil.QUATRO);
+		query.offset((pagina - 1) * 4);
+
+		List<Expression<?>> projections = new ArrayList<>();
+		projections.add(entrega.id.as(codigo));
+		projections.add(entrega.titulo.as(titulo));
+		projections.add(entrega.descricao.as(descricao));
+		projections.add(entrega.volume.as(volume));
+		projections.add(QueryDslUtil.dataString(entrega.dataColeta, DateUtil.FORMATO_DD_MM_YYYY).as(dataColeta));
+		projections.add(QueryDslUtil.dataString(entrega.dataPrazoEntrega, DateUtil.FORMATO_DD_MM_YYYY).as(dataEntrega));
+		projections.add(qUsuarioCliente.nome.as(nomeCliente));
+		projections.add(qUsuarioEntregador.nome.as(nomeEntregador));
+		projections.add(qCidadeColeta.descricao.as(cidadeColeta));
+		projections.add(qCidadeEntrega.descricao.as(cidadeEntrega));
+
+		return query.list(Projections.fields(EntregaDTO.class, ListUtil.from(projections).toArray(Expression.class)));
+	}
+
+	@Override
+	public Long buscarTotalEntregasAdminAndamento(Integer codigoUsuario) {
+		BooleanBuilder where = new BooleanBuilder();
+		where.and(entrega.codigoCliente.eq(codigoUsuario).or(entrega.codigoEntregador.eq(codigoUsuario)));
+		where.and(entrega.flagFinalizada.eq(Boolean.FALSE));
+
+		return query().from(entrega).where(where).count();
+	}
+
 }

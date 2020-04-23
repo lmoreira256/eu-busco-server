@@ -18,9 +18,7 @@ import br.com.eubusco.server.constantes.MensagemService;
 import br.com.eubusco.server.dao.ContatoDAO;
 import br.com.eubusco.server.dao.DocumentoDAO;
 import br.com.eubusco.server.dao.EnderecoDAO;
-import br.com.eubusco.server.dao.EntregaDAO;
 import br.com.eubusco.server.dao.UsuarioDAO;
-import br.com.eubusco.server.dto.DadosUsuarioDTO;
 import br.com.eubusco.server.dto.LoginDTO;
 import br.com.eubusco.server.dto.NovoUsuarioDTO;
 import br.com.eubusco.server.dto.RetornoEfetuarLoginDTO;
@@ -57,9 +55,6 @@ public class UsuarioBOImpl implements UsuarioBO {
 	@Autowired
 	private S3Service s3Service;
 
-	@Autowired
-	private EntregaDAO entregaDAO;
-
 	@Override
 	public RetornoEfetuarLoginDTO efetuarLogin(LoginDTO loginDTO) {
 		logger.info("*** Rodando o método efetuarLogin ***");
@@ -86,27 +81,27 @@ public class UsuarioBOImpl implements UsuarioBO {
 
 		switch (usuario.getCodigoTipoUsuario()) {
 		case 2:
-			System.out.println("Cliente");
 			retornoEfetuarLoginDTO
 					.setEntregasUsuarioAbertas(entregaBO.buscarEntregasUsuarioAbertas(usuario.getId(), 1));
 			retornoEfetuarLoginDTO
 					.setEntregasUsuarioAndamento(entregaBO.buscarEntregasUsuarioAndamento(usuario.getId(), 1));
+			retornoEfetuarLoginDTO.setEntregasFinalizadas(entregaBO.buscarEntregasFinalizadas(usuario.getId(), 1));
 			break;
 
 		case 3:
-			System.out.println("Entregador");
 			retornoEfetuarLoginDTO.setEntregasAbertas(entregaBO.buscarEntregasAbertas(usuario.getId(), 1));
-			retornoEfetuarLoginDTO.setEntregasParaEntregar(entregaBO.buscarEntregasParaEntregar(usuario.getId(), 1));
+			retornoEfetuarLoginDTO
+					.setEntregasUsuarioAndamento(entregaBO.buscarEntregasParaEntregar(usuario.getId(), 1));
+			retornoEfetuarLoginDTO.setEntregasFinalizadas(entregaBO.buscarEntregasEntregues(usuario.getId(), 1));
 			break;
 
 		default:
-			System.out.println("Admin");
 			retornoEfetuarLoginDTO
 					.setEntregasUsuarioAbertas(entregaBO.buscarEntregasUsuarioAbertas(usuario.getId(), 1));
 			retornoEfetuarLoginDTO
-					.setEntregasUsuarioAndamento(entregaBO.buscarEntregasUsuarioAndamento(usuario.getId(), 1));
+					.setEntregasUsuarioAndamento(entregaBO.buscarEntregasAdminAndamento(usuario.getId(), 1));
 			retornoEfetuarLoginDTO.setEntregasAbertas(entregaBO.buscarEntregasAbertas(usuario.getId(), 1));
-			retornoEfetuarLoginDTO.setEntregasParaEntregar(entregaBO.buscarEntregasParaEntregar(usuario.getId(), 1));
+			retornoEfetuarLoginDTO.setEntregasFinalizadas(entregaBO.buscarEntregasFinalizadasAdmin(usuario.getId(), 1));
 			break;
 		}
 
@@ -192,24 +187,6 @@ public class UsuarioBOImpl implements UsuarioBO {
 
 	public URI salvarFotoUsuario(MultipartFile multipartFile) {
 		return s3Service.uploadFile(multipartFile);
-	}
-
-	@Override
-	public DadosUsuarioDTO buscarDadosUsuario(Integer codigoUsuario) {
-		logger.info("==> Executando o método buscarDadosUsuario.");
-
-		if (codigoUsuario == null) {
-			throw Resource.getServerException(MensagemService.PARAMETRO_NULO);
-		}
-
-		Usuario usuario = usuarioDAO.buscarPorId(codigoUsuario);
-
-		DadosUsuarioDTO dadosUsuarioDTO = new DadosUsuarioDTO();
-		dadosUsuarioDTO.setNota(avaliacaoBO.buscarNotaUsuario(codigoUsuario, usuario.getCodigoTipoUsuario()));
-		dadosUsuarioDTO.setEntregasAbertas(entregaDAO.adquirirEntregasAbertasUsuario(codigoUsuario));
-		dadosUsuarioDTO.setTotalEntregas(entregaDAO.adquirirTotalEntregasUsuario(codigoUsuario));
-
-		return dadosUsuarioDTO;
 	}
 
 	@Override

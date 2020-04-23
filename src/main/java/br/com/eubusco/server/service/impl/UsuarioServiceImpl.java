@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.eubusco.server.bo.UsuarioBO;
-import br.com.eubusco.server.dto.DadosUsuarioDTO;
 import br.com.eubusco.server.dto.LoginDTO;
 import br.com.eubusco.server.dto.NovoUsuarioDTO;
 import br.com.eubusco.server.dto.RetornoEfetuarLoginDTO;
@@ -30,11 +29,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public Integer novoUsuario(@RequestBody @Valid NovoUsuarioDTO novoUsuarioDTO) {
 		return usuarioBO.novoUsuario(novoUsuarioDTO);
-	}
-
-	@Override
-	public DadosUsuarioDTO buscarDadosUsuario(Integer idUsuario) {
-		return usuarioBO.buscarDadosUsuario(idUsuario);
 	}
 
 	@Override
