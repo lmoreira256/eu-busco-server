@@ -6,6 +6,6 @@ import br.com.eubusco.server.model.Avaliacao;
 
 public interface AvaliacaoDAO extends GenericDAO<Avaliacao> {
 
-	public abstract BigDecimal adiquirirNotaUsuario(Integer codigoUsuario, Integer tipoUsuario);
+	public abstract BigDecimal buscarNotaUsuario(Integer codigoUsuario, Integer tipoUsuario);
 
 }

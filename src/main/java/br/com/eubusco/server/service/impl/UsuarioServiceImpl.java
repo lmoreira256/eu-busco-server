@@ -8,38 +8,38 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import br.com.eubusco.server.bo.UserBO;
+import br.com.eubusco.server.bo.UsuarioBO;
 import br.com.eubusco.server.dto.DadosUsuarioDTO;
 import br.com.eubusco.server.dto.LoginDTO;
 import br.com.eubusco.server.dto.NovoUsuarioDTO;
-import br.com.eubusco.server.dto.ReturnLoginDTO;
+import br.com.eubusco.server.dto.RetornoEfetuarLoginDTO;
 import br.com.eubusco.server.model.Usuario;
-import br.com.eubusco.server.service.UserService;
+import br.com.eubusco.server.service.UsuarioService;
 
 @ManagedBean
-public class UserServiceImpl implements UserService {
+public class UsuarioServiceImpl implements UsuarioService {
 
 	@Autowired
-	private UserBO userBO;
+	private UsuarioBO usuarioBO;
 
 	@Override
-	public ReturnLoginDTO login(@RequestBody @Valid LoginDTO loginDTO) {
-		return userBO.login(loginDTO);
+	public RetornoEfetuarLoginDTO efetuarLogin(@RequestBody @Valid LoginDTO loginDTO) {
+		return usuarioBO.efetuarLogin(loginDTO);
 	}
 
 	@Override
 	public Integer novoUsuario(@RequestBody @Valid NovoUsuarioDTO novoUsuarioDTO) {
-		return userBO.novoUsuario(novoUsuarioDTO);
+		return usuarioBO.novoUsuario(novoUsuarioDTO);
 	}
 
 	@Override
 	public DadosUsuarioDTO buscarDadosUsuario(Integer idUsuario) {
-		return userBO.buscarDadosUsuario(idUsuario);
+		return usuarioBO.buscarDadosUsuario(idUsuario);
 	}
 
 	@Override
 	public List<Usuario> buscarTodosUsuarios() {
-		return userBO.buscarTodosUsuarios();
+		return usuarioBO.buscarTodosUsuarios();
 	}
 
 }

@@ -2,6 +2,7 @@ package br.com.eubusco.server.dao;
 
 import java.util.List;
 
+import br.com.eubusco.server.dto.EntregaDTO;
 import br.com.eubusco.server.model.Entrega;
 
 public interface EntregaDAO extends GenericDAO<Entrega> {
@@ -23,5 +24,21 @@ public interface EntregaDAO extends GenericDAO<Entrega> {
 	public abstract Integer buscarCodigoCliente(Integer codigoEntrega);
 
 	public abstract Integer buscarCodigoEntregador(Integer codigoEntrega);
+
+	public abstract List<EntregaDTO> buscarEntregasUsuarioAbertas(Integer codigoUsuario, Integer pagina);
+
+	public abstract Long buscarTotalEntregasUsuarioAbertas(Integer codigoUsuario);
+
+	public abstract List<EntregaDTO> buscarEntregasUsuarioAndamento(Integer codigoUsuario, Integer pagina);
+
+	public abstract Long buscarTotalEntregasUsuarioAndamento(Integer codigoUsuario);
+
+	public abstract List<EntregaDTO> buscarEntregasAbertas(Integer codigoUsuario, Integer pagina);
+
+	public abstract Long buscarTotalEntregasAbertas(Integer codigoUsuario);
+
+	public abstract List<EntregaDTO> buscarEntregasParaEntregar(Integer codigoUsuario, Integer pagina);
+
+	public abstract Long buscarTotalEntregasParaEntregar(Integer codigoUsuario);
 
 }

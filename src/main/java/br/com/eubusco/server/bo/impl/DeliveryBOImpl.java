@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import br.com.eubusco.server.bo.AddressBO;
 import br.com.eubusco.server.bo.ContactBO;
 import br.com.eubusco.server.bo.DeliveryBO;
-import br.com.eubusco.server.bo.UserBO;
+import br.com.eubusco.server.bo.UsuarioBO;
 import br.com.eubusco.server.constantes.MensagemService;
 import br.com.eubusco.server.dao.DeliveryDAO;
 import br.com.eubusco.server.dto.DeliveryDTO;
@@ -29,7 +29,7 @@ public class DeliveryBOImpl implements DeliveryBO {
 	private DeliveryDAO deliveryDAO;
 
 	@Autowired
-	private UserBO userBO;
+	private UsuarioBO usuarioBO;
 
 	@Autowired
 	private AddressBO addressBO;
@@ -53,7 +53,7 @@ public class DeliveryBOImpl implements DeliveryBO {
 			DeliveryDTO deliveryDTO = new DeliveryDTO();
 
 			deliveryDTO.setBulk(x.getVolume());
-			deliveryDTO.setClientName(userBO.getUserName(userCode));
+			deliveryDTO.setClientName(usuarioBO.buscarNomeUsuario(userCode));
 			deliveryDTO.setCollectionAddress(addressBO.getAddressFromCode(x.getCodigoEnderecoColeta()));
 			deliveryDTO.setDeliveryAddress(addressBO.getAddressFromCode(x.getCodigoEnderecoEntrega()));
 			deliveryDTO.setCollectionDate(x.getDataColeta());
