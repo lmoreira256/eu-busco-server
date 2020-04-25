@@ -19,4 +19,6 @@ public interface UsuarioBO {
 
 	public abstract List<Usuario> buscarTodosUsuarios();
 
+	public abstract Integer buscarTipoUsuario(Integer codigoUsuario);
+
 }

@@ -166,4 +166,11 @@ public class UsuarioBOImpl implements UsuarioBO {
 		return usuarioDAO.buscarTodos();
 	}
 
+	@Override
+	public Integer buscarTipoUsuario(Integer codigoUsuario) {
+		logger.info("==> Executando o método buscarTipoUsuario.");
+
+		return null;
+	}
+
 }

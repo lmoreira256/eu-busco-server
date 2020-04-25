@@ -223,56 +223,6 @@ public class EntregaDAOImpl extends GenericDAOImpl<Entrega> implements EntregaDA
 	}
 
 	@Override
-	public List<EntregaDTO> buscarEntregasAbertas(Integer codigoUsuario, Integer pagina) {
-		NumberPath<Integer> codigo = new NumberPath<>(Integer.class, "codigo");
-		StringPath titulo = new StringPath("titulo");
-		StringPath descricao = new StringPath("descricao");
-		StringPath nomeCliente = new StringPath("nomeCliente");
-		StringPath cidadeEntrega = new StringPath("cidadeEntrega");
-		StringPath cidadeColeta = new StringPath("cidadeColeta");
-		StringPath volume = new StringPath("volume");
-		StringPath dataColeta = new StringPath("dataColeta");
-		StringPath dataEntrega = new StringPath("dataEntrega");
-
-		JPAQuery query = query().from(entrega);
-
-		QUsuario qUsuarioCliente = new QUsuario("qUsuarioCliente");
-		QEndereco qEnderecoColeta = new QEndereco("qEnderecoColeta");
-		QCidade qCidadeColeta = new QCidade("cidadeColeta");
-		QEndereco qEnderecoEntrega = new QEndereco("qEnderecoEntrega");
-		QCidade qCidadeEntrega = new QCidade("qCidadeEntrega");
-
-		query.innerJoin(qUsuarioCliente).on(qUsuarioCliente.id.eq(entrega.codigoCliente));
-		query.innerJoin(qEnderecoColeta).on(entrega.codigoEnderecoColeta.eq(qEnderecoColeta.id));
-		query.innerJoin(qCidadeColeta).on(qEnderecoColeta.codigoCidade.eq(qCidadeColeta.id));
-		query.innerJoin(qEnderecoEntrega).on(entrega.codigoEnderecoColeta.eq(qEnderecoEntrega.id));
-		query.innerJoin(qCidadeEntrega).on(qEnderecoColeta.codigoCidade.eq(qCidadeEntrega.id));
-
-		BooleanBuilder where = new BooleanBuilder();
-		where.and(entrega.codigoCliente.ne(codigoUsuario));
-		where.and(entrega.codigoEntregador.isNull());
-		where.and(entrega.flagFinalizada.eq(Boolean.FALSE));
-
-		query.where(where);
-
-		query.limit(LongUtil.QUATRO);
-		query.offset((pagina - 1) * 4);
-
-		List<Expression<?>> projections = new ArrayList<>();
-		projections.add(entrega.id.as(codigo));
-		projections.add(entrega.titulo.as(titulo));
-		projections.add(entrega.descricao.as(descricao));
-		projections.add(entrega.volume.as(volume));
-		projections.add(QueryDslUtil.dataString(entrega.dataColeta, DateUtil.FORMATO_DD_MM_YYYY).as(dataColeta));
-		projections.add(QueryDslUtil.dataString(entrega.dataPrazoEntrega, DateUtil.FORMATO_DD_MM_YYYY).as(dataEntrega));
-		projections.add(qUsuarioCliente.nome.as(nomeCliente));
-		projections.add(qCidadeColeta.descricao.as(cidadeColeta));
-		projections.add(qCidadeEntrega.descricao.as(cidadeEntrega));
-
-		return query.list(Projections.fields(EntregaDTO.class, ListUtil.from(projections).toArray(Expression.class)));
-	}
-
-	@Override
 	public Long buscarTotalEntregasAbertas(Integer codigoUsuario) {
 		BooleanBuilder where = new BooleanBuilder();
 		where.and(entrega.codigoCliente.ne(codigoUsuario));
@@ -596,6 +546,11 @@ public class EntregaDAOImpl extends GenericDAOImpl<Entrega> implements EntregaDA
 		where.and(entrega.flagFinalizada.eq(Boolean.FALSE));
 
 		return query().from(entrega).where(where).count();
+	}
+	
+	@Override
+	public List<EntregaDTO> buscarEntregasAbertas(Integer codigoUsuario, Integer tipoUsuario, Integer pagina) {
+		return null;
 	}
 
 }

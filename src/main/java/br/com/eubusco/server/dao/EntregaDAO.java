@@ -33,8 +33,6 @@ public interface EntregaDAO extends GenericDAO<Entrega> {
 
 	public abstract Long buscarTotalEntregasUsuarioAndamento(Integer codigoUsuario);
 
-	public abstract List<EntregaDTO> buscarEntregasAbertas(Integer codigoUsuario, Integer pagina);
-
 	public abstract Long buscarTotalEntregasAbertas(Integer codigoUsuario);
 
 	public abstract List<EntregaDTO> buscarEntregasParaEntregar(Integer codigoUsuario, Integer pagina);
@@ -56,5 +54,7 @@ public interface EntregaDAO extends GenericDAO<Entrega> {
 	public abstract List<EntregaDTO> buscarEntregasAdminAndamento(Integer codigoUsuario, Integer pagina);
 
 	public abstract Long buscarTotalEntregasAdminAndamento(Integer codigoUsuario);
+
+	public abstract List<EntregaDTO> buscarEntregasAbertas(Integer codigoUsuario, Integer tipoUsuario, Integer pagina);
 
 }

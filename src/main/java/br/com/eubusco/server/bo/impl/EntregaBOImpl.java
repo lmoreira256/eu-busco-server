@@ -18,6 +18,7 @@ import br.com.eubusco.server.dao.EnderecoDAO;
 import br.com.eubusco.server.dao.EntregaDAO;
 import br.com.eubusco.server.dto.PaginacaoDTO;
 import br.com.eubusco.server.dto.ParametroPegarEntregaDTO;
+import br.com.eubusco.server.dto.RetornoBuscarEntregasDTO;
 import br.com.eubusco.server.dto.RetornoEntregaAvaliacaoDTO;
 import br.com.eubusco.server.dto.RetornoEntregasDisponiveisDTO;
 import br.com.eubusco.server.model.Entrega;
@@ -234,17 +235,6 @@ public class EntregaBOImpl implements EntregaBO {
 	}
 
 	@Override
-	public PaginacaoDTO buscarEntregasAbertas(Integer codigoUsuario, Integer pagina) {
-		logger.info("*** Rodando o método buscarEntregasAbertas ***");
-
-		PaginacaoDTO paginacaoDTO = new PaginacaoDTO();
-		paginacaoDTO.setLista(entregaDAO.buscarEntregasAbertas(codigoUsuario, pagina));
-		paginacaoDTO.setTotal(entregaDAO.buscarTotalEntregasAbertas(codigoUsuario));
-
-		return paginacaoDTO;
-	}
-
-	@Override
 	public PaginacaoDTO buscarEntregasParaEntregar(Integer codigoUsuario, Integer pagina) {
 		logger.info("*** Rodando o método buscarEntregasParaEntregar ***");
 
@@ -295,6 +285,28 @@ public class EntregaBOImpl implements EntregaBO {
 		PaginacaoDTO paginacaoDTO = new PaginacaoDTO();
 		paginacaoDTO.setLista(entregaDAO.buscarEntregasAdminAndamento(codigoUsuario, pagina));
 		paginacaoDTO.setTotal(entregaDAO.buscarTotalEntregasAdminAndamento(codigoUsuario));
+
+		return paginacaoDTO;
+	}
+
+	@Override
+	public RetornoBuscarEntregasDTO buscarEntregas(Integer codigoUsuario) {
+		logger.info("*** Rodando o método buscarEntregas ***");
+
+		Integer tipoUsuario = usuarioBO.buscarTipoUsuario(codigoUsuario);
+
+		PaginacaoDTO abertas = buscarEntregasAbertas(codigoUsuario, tipoUsuario, 1);
+
+		return new RetornoBuscarEntregasDTO();
+	}
+
+	@Override
+	public PaginacaoDTO buscarEntregasAbertas(Integer codigoUsuario, Integer tipoUsuario, Integer pagina) {
+		logger.info("*** Rodando o método buscarEntregasAbertas ***");
+
+		PaginacaoDTO paginacaoDTO = new PaginacaoDTO();
+		paginacaoDTO.setLista(null);
+		paginacaoDTO.setTotal(null);
 
 		return paginacaoDTO;
 	}

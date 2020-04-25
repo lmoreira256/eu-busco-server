@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.com.eubusco.server.dto.PaginacaoDTO;
 import br.com.eubusco.server.dto.ParametroPegarEntregaDTO;
+import br.com.eubusco.server.dto.RetornoBuscarEntregasDTO;
 import br.com.eubusco.server.dto.RetornoEntregaAvaliacaoDTO;
 import br.com.eubusco.server.dto.RetornoEntregasDisponiveisDTO;
 import br.com.eubusco.server.model.Entrega;
@@ -34,8 +35,6 @@ public interface EntregaBO {
 
 	public abstract PaginacaoDTO buscarEntregasUsuarioAndamento(Integer codigoUsuario, Integer pagina);
 
-	public abstract PaginacaoDTO buscarEntregasAbertas(Integer codigoUsuario, Integer pagina);
-
 	public abstract PaginacaoDTO buscarEntregasParaEntregar(Integer codigoUsuario, Integer pagina);
 
 	public abstract PaginacaoDTO buscarEntregasEntregues(Integer codigoUsuario, Integer pagina);
@@ -45,5 +44,9 @@ public interface EntregaBO {
 	public abstract PaginacaoDTO buscarEntregasFinalizadasAdmin(Integer codigoUsuario, Integer pagina);
 
 	public abstract PaginacaoDTO buscarEntregasAdminAndamento(Integer codigoUsuario, Integer pagina);
+
+	public abstract RetornoBuscarEntregasDTO buscarEntregas(Integer codigoUsuario);
+
+	public abstract PaginacaoDTO buscarEntregasAbertas(Integer codigoUsuario, Integer tipoUsuario, Integer pagina);
 
 }
