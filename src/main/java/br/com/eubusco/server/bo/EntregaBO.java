@@ -39,8 +39,6 @@ public interface EntregaBO {
 
 	public abstract PaginacaoDTO buscarEntregasEntregues(Integer codigoUsuario, Integer pagina);
 
-	public abstract PaginacaoDTO buscarEntregasFinalizadas(Integer codigoUsuario, Integer pagina);
-
 	public abstract PaginacaoDTO buscarEntregasFinalizadasAdmin(Integer codigoUsuario, Integer pagina);
 
 	public abstract PaginacaoDTO buscarEntregasAdminAndamento(Integer codigoUsuario, Integer pagina);
@@ -48,5 +46,9 @@ public interface EntregaBO {
 	public abstract RetornoBuscarEntregasDTO buscarEntregas(Integer codigoUsuario);
 
 	public abstract PaginacaoDTO buscarEntregasAbertas(Integer codigoUsuario, Integer tipoUsuario, Integer pagina);
+
+	public abstract PaginacaoDTO buscarEntregasAndamento(Integer codigoUsuario, Integer tipoUsuario, Integer pagina);
+
+	public abstract PaginacaoDTO buscarEntregasFinalizadas(Integer codigoUsuario, Integer tipoUsuario, Integer pagina);
 
 }

@@ -8,18 +8,19 @@ public class RetornoEfetuarLoginDTO {
 	private String nomeUsuario;
 	private Integer tipoUsuario;
 	private BigDecimal nota;
+	private RetornoBuscarEntregasDTO entregas;
 
 	public RetornoEfetuarLoginDTO() {
 	}
 
 	public RetornoEfetuarLoginDTO(Integer codigoUsuario, String nomeUsuario, Integer tipoUsuario, BigDecimal nota,
-			PaginacaoDTO entregasUsuarioAbertas, PaginacaoDTO entregasUsuarioAndamento, PaginacaoDTO entregasAbertas,
-			PaginacaoDTO entregasFinalizadas) {
+			RetornoBuscarEntregasDTO entregas) {
 		super();
 		this.codigoUsuario = codigoUsuario;
 		this.nomeUsuario = nomeUsuario;
 		this.tipoUsuario = tipoUsuario;
 		this.nota = nota;
+		this.entregas = entregas;
 	}
 
 	public Integer getCodigoUsuario() {
@@ -52,6 +53,14 @@ public class RetornoEfetuarLoginDTO {
 
 	public void setNota(BigDecimal nota) {
 		this.nota = nota;
+	}
+
+	public RetornoBuscarEntregasDTO getEntregas() {
+		return entregas;
+	}
+
+	public void setEntregas(RetornoBuscarEntregasDTO entregas) {
+		this.entregas = entregas;
 	}
 
 }

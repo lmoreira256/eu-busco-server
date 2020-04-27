@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.eubusco.server.bo.AvaliacaoBO;
+import br.com.eubusco.server.bo.EntregaBO;
 import br.com.eubusco.server.bo.UsuarioBO;
 import br.com.eubusco.server.constantes.MensagemService;
 import br.com.eubusco.server.dao.ContatoDAO;
@@ -51,6 +52,9 @@ public class UsuarioBOImpl implements UsuarioBO {
 	@Autowired
 	private S3Service s3Service;
 
+	@Autowired
+	private EntregaBO entregaBO;
+
 	@Override
 	public RetornoEfetuarLoginDTO efetuarLogin(LoginDTO loginDTO) {
 		logger.info("*** Rodando o método efetuarLogin ***");
@@ -74,6 +78,7 @@ public class UsuarioBOImpl implements UsuarioBO {
 		retornoEfetuarLoginDTO.setNomeUsuario(usuario.getNome());
 		retornoEfetuarLoginDTO.setTipoUsuario(usuario.getCodigoTipoUsuario());
 		retornoEfetuarLoginDTO.setNota(avaliacaoBO.buscarNotaUsuario(usuario.getId(), usuario.getCodigoTipoUsuario()));
+		retornoEfetuarLoginDTO.setEntregas(entregaBO.buscarEntregas(usuario.getId()));
 
 		return retornoEfetuarLoginDTO;
 	}
@@ -168,9 +173,9 @@ public class UsuarioBOImpl implements UsuarioBO {
 
 	@Override
 	public Integer buscarTipoUsuario(Integer codigoUsuario) {
-		logger.info("==> Executando o método buscarTipoUsuario.");
+		logger.info("*** Rodando o método buscarTipoUsuario ***");
 
-		return null;
+		return usuarioDAO.buscarTipoUsuario(codigoUsuario);
 	}
 
 }

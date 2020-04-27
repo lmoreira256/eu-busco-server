@@ -257,17 +257,6 @@ public class EntregaBOImpl implements EntregaBO {
 	}
 
 	@Override
-	public PaginacaoDTO buscarEntregasFinalizadas(Integer codigoUsuario, Integer pagina) {
-		logger.info("*** Rodando o método buscarEntregasFinalizadas ***");
-
-		PaginacaoDTO paginacaoDTO = new PaginacaoDTO();
-		paginacaoDTO.setLista(entregaDAO.buscarEntregasFinalizadas(codigoUsuario, pagina));
-		paginacaoDTO.setTotal(entregaDAO.buscarTotalEntregasFinalizadas(codigoUsuario));
-
-		return paginacaoDTO;
-	}
-
-	@Override
 	public PaginacaoDTO buscarEntregasFinalizadasAdmin(Integer codigoUsuario, Integer pagina) {
 		logger.info("*** Rodando o método buscarEntregasFinalizadasAdmin ***");
 
@@ -296,8 +285,10 @@ public class EntregaBOImpl implements EntregaBO {
 		Integer tipoUsuario = usuarioBO.buscarTipoUsuario(codigoUsuario);
 
 		PaginacaoDTO abertas = buscarEntregasAbertas(codigoUsuario, tipoUsuario, 1);
+		PaginacaoDTO andamento = buscarEntregasAndamento(codigoUsuario, tipoUsuario, 1);
+		PaginacaoDTO finalizadas = buscarEntregasFinalizadas(codigoUsuario, tipoUsuario, 1);
 
-		return new RetornoBuscarEntregasDTO();
+		return new RetornoBuscarEntregasDTO(abertas, andamento, finalizadas);
 	}
 
 	@Override
@@ -305,8 +296,30 @@ public class EntregaBOImpl implements EntregaBO {
 		logger.info("*** Rodando o método buscarEntregasAbertas ***");
 
 		PaginacaoDTO paginacaoDTO = new PaginacaoDTO();
-		paginacaoDTO.setLista(null);
-		paginacaoDTO.setTotal(null);
+		paginacaoDTO.setLista(entregaDAO.buscarEntregasAbertas(codigoUsuario, tipoUsuario, pagina));
+		paginacaoDTO.setTotal(entregaDAO.buscarTotalEntregasAbertas(codigoUsuario, tipoUsuario));
+
+		return paginacaoDTO;
+	}
+
+	@Override
+	public PaginacaoDTO buscarEntregasAndamento(Integer codigoUsuario, Integer tipoUsuario, Integer pagina) {
+		logger.info("*** Rodando o método buscarEntregasAndamento ***");
+
+		PaginacaoDTO paginacaoDTO = new PaginacaoDTO();
+		paginacaoDTO.setLista(entregaDAO.buscarEntregasAndamento(codigoUsuario, tipoUsuario, pagina));
+		paginacaoDTO.setTotal(entregaDAO.buscarTotalEntregasAndamento(codigoUsuario, tipoUsuario));
+
+		return paginacaoDTO;
+	}
+
+	@Override
+	public PaginacaoDTO buscarEntregasFinalizadas(Integer codigoUsuario, Integer tipoUsuario, Integer pagina) {
+		logger.info("*** Rodando o método buscarEntregasFinalizadas ***");
+
+		PaginacaoDTO paginacaoDTO = new PaginacaoDTO();
+		paginacaoDTO.setLista(entregaDAO.buscarEntregasFinalizadas(codigoUsuario, tipoUsuario, pagina));
+		paginacaoDTO.setTotal(entregaDAO.buscarTotalEntregasFinalizadas(codigoUsuario, tipoUsuario));
 
 		return paginacaoDTO;
 	}
