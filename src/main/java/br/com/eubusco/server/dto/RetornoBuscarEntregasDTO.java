@@ -5,15 +5,18 @@ public class RetornoBuscarEntregasDTO {
 	private PaginacaoDTO abertas;
 	private PaginacaoDTO andamento;
 	private PaginacaoDTO finalizadas;
+	private PaginacaoDTO excluidas;
 
 	public RetornoBuscarEntregasDTO() {
 	}
 
-	public RetornoBuscarEntregasDTO(PaginacaoDTO abertas, PaginacaoDTO andamento, PaginacaoDTO finalizadas) {
+	public RetornoBuscarEntregasDTO(PaginacaoDTO abertas, PaginacaoDTO andamento, PaginacaoDTO finalizadas,
+			PaginacaoDTO excluidas) {
 		super();
 		this.abertas = abertas;
 		this.andamento = andamento;
 		this.finalizadas = finalizadas;
+		this.excluidas = excluidas;
 	}
 
 	public PaginacaoDTO getAbertas() {
@@ -38,6 +41,14 @@ public class RetornoBuscarEntregasDTO {
 
 	public void setFinalizadas(PaginacaoDTO finalizadas) {
 		this.finalizadas = finalizadas;
+	}
+
+	public PaginacaoDTO getExcluidas() {
+		return excluidas;
+	}
+
+	public void setExcluidas(PaginacaoDTO excluidas) {
+		this.excluidas = excluidas;
 	}
 
 }

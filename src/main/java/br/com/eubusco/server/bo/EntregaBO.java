@@ -6,18 +6,11 @@ import br.com.eubusco.server.dto.PaginacaoDTO;
 import br.com.eubusco.server.dto.ParametroPegarEntregaDTO;
 import br.com.eubusco.server.dto.RetornoBuscarEntregasDTO;
 import br.com.eubusco.server.dto.RetornoEntregaAvaliacaoDTO;
-import br.com.eubusco.server.dto.RetornoEntregasDisponiveisDTO;
 import br.com.eubusco.server.model.Entrega;
 
 public interface EntregaBO {
 
 	public abstract Boolean salvar(Entrega entrega);
-
-	public abstract List<RetornoEntregasDisponiveisDTO> buscarAbertasCliente(Integer idUsuario);
-
-	public abstract List<RetornoEntregasDisponiveisDTO> buscarAbertasEntregador(Integer idUsuario);
-
-	public abstract List<RetornoEntregasDisponiveisDTO> buscarDisponiveis();
 
 	public abstract Boolean pegarEntrega(ParametroPegarEntregaDTO parametroPegarEntregaDTO);
 
@@ -25,23 +18,9 @@ public interface EntregaBO {
 
 	public abstract Boolean excluirEntrega(Integer codigoEntrega);
 
-	public abstract List<RetornoEntregasDisponiveisDTO> buscarTodasAbertas();
-
 	public abstract Boolean finalizarEntrega(Integer codigoEntrega);
 
 	public abstract List<RetornoEntregaAvaliacaoDTO> buscarEntregasAvaliacao(Integer codigoUsuario);
-
-	public abstract PaginacaoDTO buscarEntregasUsuarioAbertas(Integer codigoUsuario, Integer pagina);
-
-	public abstract PaginacaoDTO buscarEntregasUsuarioAndamento(Integer codigoUsuario, Integer pagina);
-
-	public abstract PaginacaoDTO buscarEntregasParaEntregar(Integer codigoUsuario, Integer pagina);
-
-	public abstract PaginacaoDTO buscarEntregasEntregues(Integer codigoUsuario, Integer pagina);
-
-	public abstract PaginacaoDTO buscarEntregasFinalizadasAdmin(Integer codigoUsuario, Integer pagina);
-
-	public abstract PaginacaoDTO buscarEntregasAdminAndamento(Integer codigoUsuario, Integer pagina);
 
 	public abstract RetornoBuscarEntregasDTO buscarEntregas(Integer codigoUsuario);
 
@@ -50,5 +29,7 @@ public interface EntregaBO {
 	public abstract PaginacaoDTO buscarEntregasAndamento(Integer codigoUsuario, Integer tipoUsuario, Integer pagina);
 
 	public abstract PaginacaoDTO buscarEntregasFinalizadas(Integer codigoUsuario, Integer tipoUsuario, Integer pagina);
+
+	public abstract PaginacaoDTO buscarEntregasExcluidas(Integer codigoUsuario, Integer tipoUsuario, Integer pagina);
 
 }

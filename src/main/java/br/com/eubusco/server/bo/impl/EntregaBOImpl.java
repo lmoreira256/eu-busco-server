@@ -13,14 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import br.com.eubusco.server.bo.EntregaBO;
 import br.com.eubusco.server.bo.UsuarioBO;
 import br.com.eubusco.server.constantes.MensagemService;
-import br.com.eubusco.server.dao.ContatoDAO;
-import br.com.eubusco.server.dao.EnderecoDAO;
 import br.com.eubusco.server.dao.EntregaDAO;
 import br.com.eubusco.server.dto.PaginacaoDTO;
 import br.com.eubusco.server.dto.ParametroPegarEntregaDTO;
 import br.com.eubusco.server.dto.RetornoBuscarEntregasDTO;
 import br.com.eubusco.server.dto.RetornoEntregaAvaliacaoDTO;
-import br.com.eubusco.server.dto.RetornoEntregasDisponiveisDTO;
 import br.com.eubusco.server.model.Entrega;
 import br.com.eubusco.server.model.Usuario;
 import br.com.eubusco.server.resources.Resource;
@@ -34,13 +31,7 @@ public class EntregaBOImpl implements EntregaBO {
 	private EntregaDAO entregaDAO;
 
 	@Autowired
-	private EnderecoDAO enderecoDAO;
-
-	@Autowired
 	private UsuarioBO usuarioBO;
-
-	@Autowired
-	private ContatoDAO contatoDAO;
 
 	@Override
 	public Boolean salvar(Entrega entrega) {
@@ -57,59 +48,6 @@ public class EntregaBOImpl implements EntregaBO {
 		Entrega retorno = entregaDAO.salvar(entrega);
 
 		return retorno != null;
-	}
-
-	@Override
-	public List<RetornoEntregasDisponiveisDTO> buscarAbertasCliente(Integer idUsuario) {
-		logger.info("==> Executando o método buscarAbertasCliente.");
-
-		if (idUsuario == null) {
-			throw Resource.getServerException(MensagemService.PARAMETRO_NULO);
-		}
-
-		return this.montarDTO(entregaDAO.buscarAbertasCliente(idUsuario));
-	}
-
-	@Override
-	public List<RetornoEntregasDisponiveisDTO> buscarAbertasEntregador(Integer idUsuario) {
-		logger.info("==> Executando o método buscarAbertasEntregador.");
-
-		if (idUsuario == null) {
-			throw Resource.getServerException(MensagemService.PARAMETRO_NULO);
-		}
-
-		return this.montarDTO(entregaDAO.buscarAbertasEntregador(idUsuario));
-	}
-
-	@Override
-	public List<RetornoEntregasDisponiveisDTO> buscarDisponiveis() {
-		logger.info("==> Executando o método buscarDisponiveis.");
-
-		return this.montarDTO(entregaDAO.buscarDisponiveis());
-	}
-
-	private List<RetornoEntregasDisponiveisDTO> montarDTO(List<Entrega> listaEntregas) {
-		List<RetornoEntregasDisponiveisDTO> retorno = new ArrayList<RetornoEntregasDisponiveisDTO>();
-
-		if (listaEntregas != null) {
-			listaEntregas.stream().forEach(x -> {
-				RetornoEntregasDisponiveisDTO entrega = new RetornoEntregasDisponiveisDTO();
-				entrega.setIdEntrega(x.getId());
-				entrega.setDataColetaEntrega(x.getDataColeta());
-				entrega.setDataPrazoEntrega(x.getDataPrazoEntrega());
-				entrega.setDescricaoEntrega(x.getDescricao());
-				entrega.setEnderecoColeta(enderecoDAO.buscarPorId(x.getCodigoEnderecoColeta()));
-				entrega.setEnderecoEntrega(enderecoDAO.buscarPorId(x.getCodigoEnderecoEntrega()));
-				entrega.setNomeCliente(usuarioBO.buscarNomeUsuario(x.getCodigoCliente()));
-				entrega.setTituloEntrega(x.getTitulo());
-				entrega.setVolumeEntrega(x.getVolume());
-				entrega.setContatosCliente(contatoDAO.adquirirPorUsuario(x.getCodigoCliente()));
-
-				retorno.add(entrega);
-			});
-		}
-
-		return retorno;
 	}
 
 	@Override
@@ -164,11 +102,6 @@ public class EntregaBOImpl implements EntregaBO {
 	}
 
 	@Override
-	public List<RetornoEntregasDisponiveisDTO> buscarTodasAbertas() {
-		return this.montarDTO(entregaDAO.buscarTodasAbertas());
-	}
-
-	@Override
 	public Boolean finalizarEntrega(Integer codigoEntrega) {
 		logger.info("==> Executando o método finalizarEntrega.");
 
@@ -213,72 +146,6 @@ public class EntregaBOImpl implements EntregaBO {
 	}
 
 	@Override
-	public PaginacaoDTO buscarEntregasUsuarioAbertas(Integer codigoUsuario, Integer pagina) {
-		logger.info("*** Rodando o método buscarEntregasUsuarioAbertas ***");
-
-		PaginacaoDTO paginacaoDTO = new PaginacaoDTO();
-		paginacaoDTO.setLista(entregaDAO.buscarEntregasUsuarioAbertas(codigoUsuario, pagina));
-		paginacaoDTO.setTotal(entregaDAO.buscarTotalEntregasUsuarioAbertas(codigoUsuario));
-
-		return paginacaoDTO;
-	}
-
-	@Override
-	public PaginacaoDTO buscarEntregasUsuarioAndamento(Integer codigoUsuario, Integer pagina) {
-		logger.info("*** Rodando o método buscarEntregasUsuarioAndamento ***");
-
-		PaginacaoDTO paginacaoDTO = new PaginacaoDTO();
-		paginacaoDTO.setLista(entregaDAO.buscarEntregasUsuarioAndamento(codigoUsuario, pagina));
-		paginacaoDTO.setTotal(entregaDAO.buscarTotalEntregasUsuarioAndamento(codigoUsuario));
-
-		return paginacaoDTO;
-	}
-
-	@Override
-	public PaginacaoDTO buscarEntregasParaEntregar(Integer codigoUsuario, Integer pagina) {
-		logger.info("*** Rodando o método buscarEntregasParaEntregar ***");
-
-		PaginacaoDTO paginacaoDTO = new PaginacaoDTO();
-		paginacaoDTO.setLista(entregaDAO.buscarEntregasParaEntregar(codigoUsuario, pagina));
-		paginacaoDTO.setTotal(entregaDAO.buscarTotalEntregasParaEntregar(codigoUsuario));
-
-		return paginacaoDTO;
-	}
-
-	@Override
-	public PaginacaoDTO buscarEntregasEntregues(Integer codigoUsuario, Integer pagina) {
-		logger.info("*** Rodando o método buscarEntregasEntregues ***");
-
-		PaginacaoDTO paginacaoDTO = new PaginacaoDTO();
-		paginacaoDTO.setLista(entregaDAO.buscarEntregasEntregues(codigoUsuario, pagina));
-		paginacaoDTO.setTotal(entregaDAO.buscarTotalEntregasEntregues(codigoUsuario));
-
-		return paginacaoDTO;
-	}
-
-	@Override
-	public PaginacaoDTO buscarEntregasFinalizadasAdmin(Integer codigoUsuario, Integer pagina) {
-		logger.info("*** Rodando o método buscarEntregasFinalizadasAdmin ***");
-
-		PaginacaoDTO paginacaoDTO = new PaginacaoDTO();
-		paginacaoDTO.setLista(entregaDAO.buscarEntregasFinalizadasAdmin(codigoUsuario, pagina));
-		paginacaoDTO.setTotal(entregaDAO.buscarTotalEntregasFinalizadasAdmin(codigoUsuario));
-
-		return paginacaoDTO;
-	}
-
-	@Override
-	public PaginacaoDTO buscarEntregasAdminAndamento(Integer codigoUsuario, Integer pagina) {
-		logger.info("*** Rodando o método buscarEntregasAdminAndamento ***");
-
-		PaginacaoDTO paginacaoDTO = new PaginacaoDTO();
-		paginacaoDTO.setLista(entregaDAO.buscarEntregasAdminAndamento(codigoUsuario, pagina));
-		paginacaoDTO.setTotal(entregaDAO.buscarTotalEntregasAdminAndamento(codigoUsuario));
-
-		return paginacaoDTO;
-	}
-
-	@Override
 	public RetornoBuscarEntregasDTO buscarEntregas(Integer codigoUsuario) {
 		logger.info("*** Rodando o método buscarEntregas ***");
 
@@ -287,8 +154,9 @@ public class EntregaBOImpl implements EntregaBO {
 		PaginacaoDTO abertas = buscarEntregasAbertas(codigoUsuario, tipoUsuario, 1);
 		PaginacaoDTO andamento = buscarEntregasAndamento(codigoUsuario, tipoUsuario, 1);
 		PaginacaoDTO finalizadas = buscarEntregasFinalizadas(codigoUsuario, tipoUsuario, 1);
+		PaginacaoDTO excluidas = buscarEntregasExcluidas(codigoUsuario, tipoUsuario, 1);
 
-		return new RetornoBuscarEntregasDTO(abertas, andamento, finalizadas);
+		return new RetornoBuscarEntregasDTO(abertas, andamento, finalizadas, excluidas);
 	}
 
 	@Override
@@ -320,6 +188,17 @@ public class EntregaBOImpl implements EntregaBO {
 		PaginacaoDTO paginacaoDTO = new PaginacaoDTO();
 		paginacaoDTO.setLista(entregaDAO.buscarEntregasFinalizadas(codigoUsuario, tipoUsuario, pagina));
 		paginacaoDTO.setTotal(entregaDAO.buscarTotalEntregasFinalizadas(codigoUsuario, tipoUsuario));
+
+		return paginacaoDTO;
+	}
+
+	@Override
+	public PaginacaoDTO buscarEntregasExcluidas(Integer codigoUsuario, Integer tipoUsuario, Integer pagina) {
+		logger.info("*** Rodando o método buscarEntregasExcluidas ***");
+
+		PaginacaoDTO paginacaoDTO = new PaginacaoDTO();
+		paginacaoDTO.setLista(entregaDAO.buscarEntregasExcluidas(codigoUsuario, tipoUsuario, pagina));
+		paginacaoDTO.setTotal(entregaDAO.buscarTotalEntregasExcluidas(codigoUsuario, tipoUsuario));
 
 		return paginacaoDTO;
 	}

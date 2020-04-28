@@ -12,7 +12,6 @@ import br.com.eubusco.server.bo.EntregaBO;
 import br.com.eubusco.server.dto.ParametroPegarEntregaDTO;
 import br.com.eubusco.server.dto.RetornoBuscarEntregasDTO;
 import br.com.eubusco.server.dto.RetornoEntregaAvaliacaoDTO;
-import br.com.eubusco.server.dto.RetornoEntregasDisponiveisDTO;
 import br.com.eubusco.server.model.Entrega;
 import br.com.eubusco.server.service.EntregaService;
 
@@ -28,21 +27,6 @@ public class EntregaServiceImpl implements EntregaService {
 	}
 
 	@Override
-	public List<RetornoEntregasDisponiveisDTO> buscarAbertasCliente(Integer idUsuario) {
-		return entregaBO.buscarAbertasCliente(idUsuario);
-	}
-
-	@Override
-	public List<RetornoEntregasDisponiveisDTO> buscarAbertasEntregador(Integer idUsuario) {
-		return entregaBO.buscarAbertasEntregador(idUsuario);
-	}
-
-	@Override
-	public List<RetornoEntregasDisponiveisDTO> buscarDisponiveis() {
-		return entregaBO.buscarDisponiveis();
-	}
-
-	@Override
 	public Boolean pegarEntrega(@RequestBody @Valid ParametroPegarEntregaDTO parametroPegarEntregaDTO) {
 		return entregaBO.pegarEntrega(parametroPegarEntregaDTO);
 	}
@@ -55,11 +39,6 @@ public class EntregaServiceImpl implements EntregaService {
 	@Override
 	public Boolean excluirEntrega(@RequestBody @Valid Integer codigoEntrega) {
 		return entregaBO.excluirEntrega(codigoEntrega);
-	}
-
-	@Override
-	public List<RetornoEntregasDisponiveisDTO> buscarTodasAbertas() {
-		return entregaBO.buscarTodasAbertas();
 	}
 
 	@Override

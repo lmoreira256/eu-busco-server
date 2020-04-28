@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.eubusco.server.dto.ParametroPegarEntregaDTO;
 import br.com.eubusco.server.dto.RetornoBuscarEntregasDTO;
 import br.com.eubusco.server.dto.RetornoEntregaAvaliacaoDTO;
-import br.com.eubusco.server.dto.RetornoEntregasDisponiveisDTO;
 import br.com.eubusco.server.model.Entrega;
 
 @RestController
@@ -20,18 +19,6 @@ public interface EntregaService {
 	@CrossOrigin
 	@RequestMapping(path = "salvar", method = RequestMethod.POST, produces = "application/json")
 	public abstract Boolean salvar(Entrega entrega);
-
-	@CrossOrigin
-	@RequestMapping(path = "buscarAbertasCliente", method = RequestMethod.GET, produces = "application/json")
-	public abstract List<RetornoEntregasDisponiveisDTO> buscarAbertasCliente(Integer idUsuario);
-
-	@CrossOrigin
-	@RequestMapping(path = "buscarAbertasEntregador", method = RequestMethod.GET, produces = "application/json")
-	public abstract List<RetornoEntregasDisponiveisDTO> buscarAbertasEntregador(Integer idUsuario);
-
-	@CrossOrigin
-	@RequestMapping(path = "buscarDisponiveis", method = RequestMethod.GET, produces = "application/json")
-	public abstract List<RetornoEntregasDisponiveisDTO> buscarDisponiveis();
 
 	@CrossOrigin
 	@RequestMapping(path = "pegarEntrega", method = RequestMethod.POST, produces = "application/json")
@@ -44,10 +31,6 @@ public interface EntregaService {
 	@CrossOrigin
 	@RequestMapping(path = "excluirEntrega", method = RequestMethod.POST, produces = "application/json")
 	public abstract Boolean excluirEntrega(Integer codigoEntrega);
-
-	@CrossOrigin
-	@RequestMapping(path = "buscarTodasAbertas", method = RequestMethod.GET, produces = "application/json")
-	public abstract List<RetornoEntregasDisponiveisDTO> buscarTodasAbertas();
 
 	@CrossOrigin
 	@RequestMapping(path = "finalizarEntrega", method = RequestMethod.POST, produces = "application/json")
