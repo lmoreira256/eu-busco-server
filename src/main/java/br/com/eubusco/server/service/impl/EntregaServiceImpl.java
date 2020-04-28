@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.eubusco.server.bo.EntregaBO;
+import br.com.eubusco.server.dto.PaginacaoDTO;
 import br.com.eubusco.server.dto.ParametroPegarEntregaDTO;
-import br.com.eubusco.server.dto.RetornoBuscarEntregasDTO;
 import br.com.eubusco.server.dto.RetornoEntregaAvaliacaoDTO;
 import br.com.eubusco.server.model.Entrega;
 import br.com.eubusco.server.service.EntregaService;
@@ -52,8 +52,8 @@ public class EntregaServiceImpl implements EntregaService {
 	}
 
 	@Override
-	public RetornoBuscarEntregasDTO buscarEntregas(Integer codigoUsuario) {
-		return null;
+	public PaginacaoDTO buscarEntregasAbertas(Integer codigoUsuario, Integer tipoUsuario, Integer pagina) {
+		return entregaBO.buscarEntregasAbertas(codigoUsuario, tipoUsuario, pagina);
 	}
 
 }

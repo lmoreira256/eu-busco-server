@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.eubusco.server.dto.PaginacaoDTO;
 import br.com.eubusco.server.dto.ParametroPegarEntregaDTO;
-import br.com.eubusco.server.dto.RetornoBuscarEntregasDTO;
 import br.com.eubusco.server.dto.RetornoEntregaAvaliacaoDTO;
 import br.com.eubusco.server.model.Entrega;
 
@@ -41,7 +41,7 @@ public interface EntregaService {
 	public abstract List<RetornoEntregaAvaliacaoDTO> buscarEntregasAvaliacao(Integer codigoUsuario);
 
 	@CrossOrigin
-	@RequestMapping(path = "buscarEntregas", method = RequestMethod.GET, produces = "application/json")
-	public abstract RetornoBuscarEntregasDTO buscarEntregas(Integer codigoUsuario);
+	@RequestMapping(path = "buscarEntregasAbertas", method = RequestMethod.GET, produces = "application/json")
+	public abstract PaginacaoDTO buscarEntregasAbertas(Integer codigoUsuario, Integer tipoUsuario, Integer pagina);
 
 }

@@ -5,7 +5,7 @@ import java.util.Map;
 
 public enum StatusEntregaEnum {
 
-	ABERTA(1), ANDAMENTO(2), FINALIZADA(3);
+	ABERTA(1), ANDAMENTO(2), FINALIZADA(3), EXCLUIDA(4);
 
 	private static final Map<Integer, StatusEntregaEnum> TYPES_BY_VALUE = new HashMap<>();
 
