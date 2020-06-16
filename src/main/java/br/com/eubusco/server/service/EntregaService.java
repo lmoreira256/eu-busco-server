@@ -44,4 +44,16 @@ public interface EntregaService {
 	@RequestMapping(path = "buscarEntregasAbertas", method = RequestMethod.GET, produces = "application/json")
 	public abstract PaginacaoDTO buscarEntregasAbertas(Integer codigoUsuario, Integer tipoUsuario, Integer pagina);
 
+	@CrossOrigin
+	@RequestMapping(path = "buscarEntregasAndamento", method = RequestMethod.GET, produces = "application/json")
+	public abstract PaginacaoDTO buscarEntregasAndamento(Integer codigoUsuario, Integer tipoUsuario, Integer pagina);
+
+	@CrossOrigin
+	@RequestMapping(path = "buscarEntregasFinalizadas", method = RequestMethod.GET, produces = "application/json")
+	public abstract PaginacaoDTO buscarEntregasFinalizadas(Integer codigoUsuario, Integer tipoUsuario, Integer pagina);
+
+	@CrossOrigin
+	@RequestMapping(path = "buscarEntregasExcluidas", method = RequestMethod.GET, produces = "application/json")
+	public abstract PaginacaoDTO buscarEntregasExcluidas(Integer codigoUsuario, Integer tipoUsuario, Integer pagina);
+
 }

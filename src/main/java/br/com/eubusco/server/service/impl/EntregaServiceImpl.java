@@ -56,4 +56,19 @@ public class EntregaServiceImpl implements EntregaService {
 		return entregaBO.buscarEntregasAbertas(codigoUsuario, tipoUsuario, pagina);
 	}
 
+	@Override
+	public PaginacaoDTO buscarEntregasAndamento(Integer codigoUsuario, Integer tipoUsuario, Integer pagina) {
+		return entregaBO.buscarEntregasAndamento(codigoUsuario, tipoUsuario, pagina);
+	}
+
+	@Override
+	public PaginacaoDTO buscarEntregasFinalizadas(Integer codigoUsuario, Integer tipoUsuario, Integer pagina) {
+		return entregaBO.buscarEntregasFinalizadas(codigoUsuario, tipoUsuario, pagina);
+	}
+
+	@Override
+	public PaginacaoDTO buscarEntregasExcluidas(Integer codigoUsuario, Integer tipoUsuario, Integer pagina) {
+		return entregaBO.buscarEntregasExcluidas(codigoUsuario, tipoUsuario, pagina);
+	}
+
 }
