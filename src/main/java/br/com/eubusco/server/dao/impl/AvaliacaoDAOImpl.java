@@ -30,7 +30,7 @@ public class AvaliacaoDAOImpl extends GenericDAOImpl<Avaliacao> implements Avali
 	}
 
 	@Override
-	public BigDecimal adiquirirNotaUsuario(Integer codigoUsuario, Integer tipoUsuario) {
+	public BigDecimal buscarNotaUsuario(Integer codigoUsuario, Integer tipoUsuario) {
 		NumberPath<BigDecimal> notaUsuario = new NumberPath<>(BigDecimal.class, "notaUsuario");
 
 		BooleanBuilder booleanBuilder = new BooleanBuilder();

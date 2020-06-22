@@ -6,6 +6,8 @@ public interface UsuarioDAO extends GenericDAO<Usuario> {
 
 	public abstract Usuario buscarPorLogin(String login);
 
-	public abstract String buscarNomePorId(Integer idUsuario);
+	public abstract String buscarNomeUsuario(Integer codigoUsuario);
+
+	public abstract Integer buscarTipoUsuario(Integer codigoUsuario);
 
 }

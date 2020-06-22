@@ -5,6 +5,9 @@ public class LoginDTO {
 	private String login;
 	private String senha;
 
+	public LoginDTO() {
+	}
+
 	public LoginDTO(String login, String senha) {
 		super();
 		this.login = login;
