@@ -81,7 +81,7 @@ public class EntregaDAOImpl extends GenericDAOImpl<Entrega> implements EntregaDA
 		query.innerJoin(qEnderecoColeta).on(entrega.codigoEnderecoColeta.eq(qEnderecoColeta.id));
 		query.innerJoin(qCidadeColeta).on(qEnderecoColeta.codigoCidade.eq(qCidadeColeta.id));
 		query.innerJoin(qEnderecoEntrega).on(entrega.codigoEnderecoColeta.eq(qEnderecoEntrega.id));
-		query.innerJoin(qCidadeEntrega).on(qEnderecoColeta.codigoCidade.eq(qCidadeEntrega.id));
+		query.innerJoin(qCidadeEntrega).on(qEnderecoEntrega.codigoCidade.eq(qCidadeEntrega.id));
 		query.leftJoin(contato).on(entrega.codigoCliente.eq(contato.codigoUsuario));
 
 		query.limit(LongUtil.QUATRO);
