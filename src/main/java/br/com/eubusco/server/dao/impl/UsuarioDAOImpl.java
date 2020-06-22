@@ -29,8 +29,13 @@ public class UsuarioDAOImpl extends GenericDAOImpl<Usuario> implements UsuarioDA
 	}
 
 	@Override
-	public String buscarNomePorId(Integer idUsuario) {
-		return from().where(usuario.id.eq(idUsuario)).uniqueResult(usuario.nome);
+	public String buscarNomeUsuario(Integer codigoUsuario) {
+		return from().where(usuario.id.eq(codigoUsuario)).uniqueResult(usuario.nome);
+	}
+
+	@Override
+	public Integer buscarTipoUsuario(Integer codigoUsuario) {
+		return from().where(usuario.id.eq(codigoUsuario)).uniqueResult(usuario.codigoTipoUsuario);
 	}
 
 }
