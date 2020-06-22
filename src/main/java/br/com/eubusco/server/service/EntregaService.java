@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.eubusco.server.dto.PaginacaoDTO;
 import br.com.eubusco.server.dto.ParametroPegarEntregaDTO;
+import br.com.eubusco.server.dto.RetornoBuscarEntregasDTO;
 import br.com.eubusco.server.dto.RetornoEntregaAvaliacaoDTO;
 import br.com.eubusco.server.model.Entrega;
 
@@ -55,5 +56,9 @@ public interface EntregaService {
 	@CrossOrigin
 	@RequestMapping(path = "buscarEntregasExcluidas", method = RequestMethod.GET, produces = "application/json")
 	public abstract PaginacaoDTO buscarEntregasExcluidas(Integer codigoUsuario, Integer tipoUsuario, Integer pagina);
+
+	@CrossOrigin
+	@RequestMapping(path = "buscarEntregas", method = RequestMethod.GET, produces = "application/json")
+	public abstract RetornoBuscarEntregasDTO buscarEntregas(Integer codigoUsuario);
 
 }

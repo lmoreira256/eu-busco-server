@@ -12,12 +12,14 @@ public class EntregaDTO {
 	private String volume;
 	private String dataColeta;
 	private String dataEntrega;
+	private String dataExclusao;
 
 	public EntregaDTO() {
 	}
 
 	public EntregaDTO(Integer codigo, String titulo, String descricao, String nomeCliente, String nomeEntregador,
-			String cidadeEntrega, String cidadeColeta, String volume, String dataColeta, String dataEntrega) {
+			String cidadeEntrega, String cidadeColeta, String volume, String dataColeta, String dataEntrega,
+			String dataExclusao) {
 		super();
 		this.codigo = codigo;
 		this.titulo = titulo;
@@ -29,6 +31,7 @@ public class EntregaDTO {
 		this.volume = volume;
 		this.dataColeta = dataColeta;
 		this.dataEntrega = dataEntrega;
+		this.dataExclusao = dataExclusao;
 	}
 
 	public Integer getCodigo() {
@@ -109,6 +112,14 @@ public class EntregaDTO {
 
 	public void setDataEntrega(String dataEntrega) {
 		this.dataEntrega = dataEntrega;
+	}
+
+	public String getDataExclusao() {
+		return dataExclusao;
+	}
+
+	public void setDataExclusao(String dataExclusao) {
+		this.dataExclusao = dataExclusao;
 	}
 
 }

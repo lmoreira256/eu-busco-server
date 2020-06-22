@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import br.com.eubusco.server.bo.EntregaBO;
 import br.com.eubusco.server.dto.PaginacaoDTO;
 import br.com.eubusco.server.dto.ParametroPegarEntregaDTO;
+import br.com.eubusco.server.dto.RetornoBuscarEntregasDTO;
 import br.com.eubusco.server.dto.RetornoEntregaAvaliacaoDTO;
 import br.com.eubusco.server.model.Entrega;
 import br.com.eubusco.server.service.EntregaService;
@@ -69,6 +70,11 @@ public class EntregaServiceImpl implements EntregaService {
 	@Override
 	public PaginacaoDTO buscarEntregasExcluidas(Integer codigoUsuario, Integer tipoUsuario, Integer pagina) {
 		return entregaBO.buscarEntregasExcluidas(codigoUsuario, tipoUsuario, pagina);
+	}
+
+	@Override
+	public RetornoBuscarEntregasDTO buscarEntregas(Integer codigoUsuario) {
+		return entregaBO.buscarEntregas(codigoUsuario);
 	}
 
 }

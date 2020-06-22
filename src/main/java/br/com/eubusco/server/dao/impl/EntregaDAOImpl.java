@@ -17,6 +17,7 @@ import com.mysema.query.jpa.impl.JPAQuery;
 import com.mysema.query.sql.SQLSubQuery;
 import com.mysema.query.types.Expression;
 import com.mysema.query.types.Projections;
+import com.mysema.query.types.path.BooleanPath;
 import com.mysema.query.types.path.NumberPath;
 import com.mysema.query.types.path.StringPath;
 
@@ -96,8 +97,10 @@ public class EntregaDAOImpl extends GenericDAOImpl<Entrega> implements EntregaDA
 		StringPath cidadeEntrega = new StringPath("cidadeEntrega");
 		StringPath cidadeColeta = new StringPath("cidadeColeta");
 		StringPath volume = new StringPath("volume");
+		BooleanPath finalizada = new BooleanPath("finalizada");
 		StringPath dataColeta = new StringPath("dataColeta");
 		StringPath dataEntrega = new StringPath("dataEntrega");
+		StringPath dataExclusao = new StringPath("dataExclusao");
 
 		QUsuario qUsuarioCliente = new QUsuario("qUsuarioCliente");
 		QUsuario qUsuarioEntregador = new QUsuario("qUsuarioEntregador");
@@ -109,8 +112,10 @@ public class EntregaDAOImpl extends GenericDAOImpl<Entrega> implements EntregaDA
 		projections.add(entrega.titulo.as(titulo));
 		projections.add(entrega.descricao.as(descricao));
 		projections.add(entrega.volume.as(volume));
+		projections.add(entrega.flagFinalizada.as(finalizada));
 		projections.add(QueryDslUtil.dataString(entrega.dataColeta, DateUtil.FORMATO_DD_MM_YYYY).as(dataColeta));
 		projections.add(QueryDslUtil.dataString(entrega.dataPrazoEntrega, DateUtil.FORMATO_DD_MM_YYYY).as(dataEntrega));
+		projections.add(QueryDslUtil.dataString(entrega.dataExclusao, DateUtil.FORMATO_DD_MM_YYYY).as(dataExclusao));
 		projections.add(qUsuarioCliente.nome.as(nomeCliente));
 		projections.add(qUsuarioEntregador.nome.coalesce("-").as(nomeEntregador));
 		projections.add(qCidadeColeta.descricao.as(cidadeColeta));

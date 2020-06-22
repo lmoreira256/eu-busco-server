@@ -95,6 +95,7 @@ public class EntregaBOImpl implements EntregaBO {
 		Entrega entrega = entregaDAO.buscarPorId(codigoEntrega);
 		entrega.setDataManutencao(new Date());
 		entrega.setDataExclusao(new Date());
+		entrega.setFlagFinalizada(Boolean.TRUE);
 
 		entregaDAO.salvar(entrega);
 
