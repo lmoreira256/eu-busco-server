@@ -11,6 +11,7 @@ public class EntregaDTO {
 	private String cidadeColeta;
 	private String volume;
 	private Boolean finalizada;
+	private String contatoCliente;
 	private String dataColeta;
 	private String dataEntrega;
 	private String dataExclusao;
@@ -19,8 +20,8 @@ public class EntregaDTO {
 	}
 
 	public EntregaDTO(Integer codigo, String titulo, String descricao, String nomeCliente, String nomeEntregador,
-			String cidadeEntrega, String cidadeColeta, String volume, Boolean finalizada, String dataColeta,
-			String dataEntrega, String dataExclusao) {
+			String cidadeEntrega, String cidadeColeta, String volume, Boolean finalizada, String contatoCliente,
+			String dataColeta, String dataEntrega, String dataExclusao) {
 		super();
 		this.codigo = codigo;
 		this.titulo = titulo;
@@ -30,6 +31,7 @@ public class EntregaDTO {
 		this.cidadeEntrega = cidadeEntrega;
 		this.cidadeColeta = cidadeColeta;
 		this.volume = volume;
+		this.contatoCliente = contatoCliente;
 		this.finalizada = finalizada;
 		this.dataColeta = dataColeta;
 		this.dataEntrega = dataEntrega;
@@ -106,6 +108,14 @@ public class EntregaDTO {
 
 	public void setFinalizada(Boolean finalizada) {
 		this.finalizada = finalizada;
+	}
+
+	public String getContatoCliente() {
+		return contatoCliente;
+	}
+
+	public void setContatoCliente(String contatoCliente) {
+		this.contatoCliente = contatoCliente;
 	}
 
 	public String getDataColeta() {

@@ -1,6 +1,7 @@
 package br.com.eubusco.server.dao.impl;
 
 import static br.com.eubusco.server.model.QAvaliacao.avaliacao;
+import static br.com.eubusco.server.model.QContato.contato;
 import static br.com.eubusco.server.model.QEntrega.entrega;
 
 import java.util.ArrayList;
@@ -81,6 +82,7 @@ public class EntregaDAOImpl extends GenericDAOImpl<Entrega> implements EntregaDA
 		query.innerJoin(qCidadeColeta).on(qEnderecoColeta.codigoCidade.eq(qCidadeColeta.id));
 		query.innerJoin(qEnderecoEntrega).on(entrega.codigoEnderecoColeta.eq(qEnderecoEntrega.id));
 		query.innerJoin(qCidadeEntrega).on(qEnderecoColeta.codigoCidade.eq(qCidadeEntrega.id));
+		query.leftJoin(contato).on(entrega.codigoCliente.eq(contato.codigoUsuario));
 
 		query.limit(LongUtil.QUATRO);
 		query.offset((pagina - 1) * 4);
@@ -98,6 +100,7 @@ public class EntregaDAOImpl extends GenericDAOImpl<Entrega> implements EntregaDA
 		StringPath cidadeColeta = new StringPath("cidadeColeta");
 		StringPath volume = new StringPath("volume");
 		BooleanPath finalizada = new BooleanPath("finalizada");
+		StringPath contatoCliente = new StringPath("contatoCliente");
 		StringPath dataColeta = new StringPath("dataColeta");
 		StringPath dataEntrega = new StringPath("dataEntrega");
 		StringPath dataExclusao = new StringPath("dataExclusao");
@@ -112,6 +115,7 @@ public class EntregaDAOImpl extends GenericDAOImpl<Entrega> implements EntregaDA
 		projections.add(entrega.titulo.as(titulo));
 		projections.add(entrega.descricao.as(descricao));
 		projections.add(entrega.volume.as(volume));
+		projections.add(contato.descricao.as(contatoCliente));
 		projections.add(entrega.flagFinalizada.as(finalizada));
 		projections.add(QueryDslUtil.dataString(entrega.dataColeta, DateUtil.FORMATO_DD_MM_YYYY).as(dataColeta));
 		projections.add(QueryDslUtil.dataString(entrega.dataPrazoEntrega, DateUtil.FORMATO_DD_MM_YYYY).as(dataEntrega));
