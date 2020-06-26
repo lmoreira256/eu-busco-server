@@ -19,6 +19,7 @@ Após clonar basta abrir em uma ide que tenha suporte para Spring Boot, durante 
 ## Configurações básicas
 
 Para alterar a base de dados que será utilizada basta alterar no arquivo application.properties:
+![](./github_images/database_config.png)
 
 ## Versões utilizadas no projeto
 ```
